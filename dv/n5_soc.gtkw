@@ -1,0 +1,71 @@
+[*]
+[*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
+[*] Sun Dec  6 17:29:21 2020
+[*]
+[dumpfile] "/Users/mshalan/work/GH-Repos/N5_SoC/dv/N5_SoC_TB.vcd"
+[dumpfile_mtime] "Sun Dec  6 17:29:21 2020"
+[dumpfile_size] 204800
+[savefile] "/Users/mshalan/work/GH-Repos/N5_SoC/dv/n5_soc.gtkw"
+[timestart] 0
+[size] 1821 887
+[pos] -1 -1
+*-22.869448 499989000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] N5_SoC_TB.
+[treeopen] N5_SoC_TB.flash.
+[treeopen] N5_SoC_TB.MUV.
+[treeopen] N5_SoC_TB.MUV.ahb_sys_0_uut.
+[treeopen] N5_SoC_TB.MUV.N5.
+[sst_width] 254
+[signals_width] 210
+[sst_expanded] 1
+[sst_vpaned_height] 267
+@28
+N5_SoC_TB.HCLK
+N5_SoC_TB.HRESETn
+N5_SoC_TB.MUV.N5.instr_ebreak
+@200
+-
+@22
+N5_SoC_TB.GPIOOEN_Sys0_S2[15:0]
+N5_SoC_TB.GPIOIN_Sys0_S2[15:0]
+N5_SoC_TB.GPIOOUT_Sys0_S2[15:0]
+@200
+-
+@28
+N5_SoC_TB.fcen
+N5_SoC_TB.fsclk
+@22
+N5_SoC_TB.fdio[3:0]
+@200
+-
+@24
+N5_SoC_TB.MUV.N5.CYC[1:0]
+@28
+[color] 3
+N5_SoC_TB.MUV.N5.HREADY
+@800028
+N5_SoC_TB.MUV.N5.HTRANS[1:0]
+@28
+(0)N5_SoC_TB.MUV.N5.HTRANS[1:0]
+(1)N5_SoC_TB.MUV.N5.HTRANS[1:0]
+@1001200
+-group_end
+@22
+N5_SoC_TB.MUV.N5.HADDR[31:0]
+N5_SoC_TB.MUV.N5.HRDATA[31:0]
+N5_SoC_TB.MUV.N5.HWDATA[31:0]
+@28
+N5_SoC_TB.MUV.N5.instr_ecall
+N5_SoC_TB.MUV.N5.instr_i
+N5_SoC_TB.MUV.N5.instr_jal
+N5_SoC_TB.MUV.N5.instr_jalr
+N5_SoC_TB.MUV.N5.instr_branch
+N5_SoC_TB.MUV.N5.instr_auipc
+@22
+N5_SoC_TB.MUV.N5.instr[31:0]
+@28
+N5_SoC_TB.MUV.N5.instr_load
+@29
+N5_SoC_TB.RsTx_Sys0_SS0_S0
+[pattern_trace] 1
+[pattern_trace] 0
