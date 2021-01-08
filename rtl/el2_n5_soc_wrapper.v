@@ -24,9 +24,9 @@ el2_swerv_wrapper el2 (
         .rst_l(HRESETn), 
         .dbg_rst_l(HRESETn), 
         
-        .rst_vec(0), 
+        .rst_vec(31'b0), 
         .nmi_int(1'b0), 
-        .nmi_vec(0),
+        .nmi_vec(31'b0),
 /*
         jtag_id, trace_rv_i_insn_ip, trace_rv_i_address_ip, 
         trace_rv_i_valid_ip, trace_rv_i_exception_ip, trace_rv_i_ecause_ip, 
@@ -72,37 +72,37 @@ el2_swerv_wrapper el2 (
         i_cpu_halt_req, o_cpu_halt_ack, o_cpu_halt_status, o_debug_mode_status, 
         i_cpu_run_req, o_cpu_run_ack, scan_mode, mbist_mode */
         
-        .lsu_hresp(0),
+        .lsu_hresp(1'b0),
         .lsu_hready(1'b1),
 
-        .sb_hresp(0),
-        .sb_hready(1),
+        .sb_hresp(1'b0),
+        .sb_hready(1'b1),
         
-        .core_id(0),
+        .core_id('b0),
 
-        .ifu_bus_clk_en(1),
-        .lsu_bus_clk_en(1),
-        .dbg_bus_clk_en(0), 
-        .dma_bus_clk_en(0), 
+        .ifu_bus_clk_en(1'b1),
+        .lsu_bus_clk_en(1'b1),
+        .dbg_bus_clk_en(1'b0), 
+        .dma_bus_clk_en(1'b0), 
         
-        .dma_hreadyin(1),
+        .dma_hreadyin(1'b1),
 //        .dma_hresp(0),
         
-        .jtag_trst_n(1),
-        .jtag_tms(0),
+        .jtag_trst_n(HRESETn),
+        .jtag_tms(1'b0),
 
-        .i_cpu_halt_req(0),
-        .i_cpu_run_req(1'b1),
+        .i_cpu_halt_req(1'b0),
+        .i_cpu_run_req(1'b0),
 
-        .scan_mode(0),
-        .mbist_mode(0),
+        .scan_mode(1'b0),
+        .mbist_mode(1'b0),
         
-        .mpc_reset_run_req(1'b0),
-        .mpc_debug_run_req(0),
-        .mpc_debug_halt_req(0),
+        .mpc_reset_run_req(1'b1),
+        .mpc_debug_run_req(1'b0),
+        .mpc_debug_halt_req(1'b0),
         
         .timer_int(1'b0), 
-        .soft_int(0), 
+        .soft_int(1'b0), 
         .extintsrc_req('b0)
     );
 
