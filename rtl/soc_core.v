@@ -61,7 +61,7 @@ module soc_core (
 	wire [2:0] HSIZE_Sys0;
 
 	wire HREADY_Sys0;
-	wire [31: 0] HRDATA_Sys0;
+	wire [63: 0] HRDATA_Sys0;
 
 	wire [31: 0] SRAMRDATA_Sys0_S1;
 	wire [3: 0] SRAMWEN_Sys0_S1;
@@ -70,13 +70,13 @@ module soc_core (
 	wire [11: 0] SRAMADDR_Sys0_S1;
 
 	// AHB LITE Master2 Signals
-	wire [31:0] M2_HADDR;
+	wire [63:0] M2_HADDR;
 	wire [0:0] M2_HREADY;
 	wire [0:0] M2_HWRITE;
 	wire [1:0] M2_HTRANS;
 	wire [2:0] M2_HSIZE;
 	wire [31:0] M2_HWDATA;
-	wire [31:0] M2_HRDATA;
+	wire [63:0] M2_HRDATA;
 	
 	wire [31: 0] M2_IRQ;
 
@@ -86,7 +86,7 @@ module soc_core (
 	wire M2_HLOCK;
 	wire M2_HGRANT;
 
-	wire [31:0] SRAMRDATA0, SRAMRDATA1, SRAMRDATA2; 
+	//wire [63:0] SRAMRDATA0, SRAMRDATA1, SRAMRDATA2; 
 
 	assign M2_HREADY = HREADY_Sys0; 
 	assign M2_HRDATA = HRDATA_Sys0;

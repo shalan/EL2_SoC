@@ -8,7 +8,7 @@ module el2_n5_soc_wrapper (
     output wire [ 1:0]  HTRANS,				// AHB transfer: non-sequential only
     output wire [31:0]  HWDATA,				// AHB write-data
     output wire         HWRITE,				// AHB write control
-    input  wire [31:0]  HRDATA,				// AHB read-data
+    input  wire [63:0]  HRDATA,				// AHB read-data
     input  wire         HREADY,				// AHB stall signal
 
     // MISCELLANEOUS 

@@ -19,7 +19,7 @@ module QSPI_XIP_CTRL(
     input wire          HWRITE,
     input wire          HREADY,
     output reg          HREADYOUT,
-    output wire [31:0]  HRDATA,
+    output wire [63:0]  HRDATA,
 
     // External Interface to Quad I/O
     output              sck,
@@ -30,7 +30,7 @@ module QSPI_XIP_CTRL(
 );
 
     // Cache wires/buses
-    wire [31:0]     c_datao;
+    wire [63:0]     c_datao;
     wire [127:0]    c_line;
     wire            c_hit;
     reg [1:0]       c_wr;
@@ -344,7 +344,7 @@ module DMC_32x16 (
     // 
     input wire  [23:0]  A,
     input wire  [23:0]  A_h,
-    output wire [31:0]  Do,
+    output wire [63:0]  Do,
     output wire         hit,
     //
     input wire [127:0]  line,
@@ -366,10 +366,8 @@ module DMC_32x16 (
     
     assign  hit =   VALID[index_h] & (TAGS[index_h] == tag_h);
 
-    assign  Do  =   (offset[3:2] == 2'd0) ?  LINES[index][31:0] :
-                    (offset[3:2] == 2'd1) ?  LINES[index][63:32] :
-                    (offset[3:2] == 2'd2) ?  LINES[index][95:64] :
-                    LINES[index][127:96];
+    
+    assign  Do  =   (offset[3] == 1'd0) ?  LINES[index][63:0] : LINES[index][127:64];
 
     // clear the VALID flags
     integer i;
