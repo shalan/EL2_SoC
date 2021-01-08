@@ -1,3 +1,8 @@
+/*
+        A Wrapper for EL2 to simplify its bus interfaces.
+        Mohamed Shalan
+
+*/
 module el2_n5_soc_wrapper (
     input  wire         HCLK,							// System clock
     input  wire         HRESETn,						// System Reset, active low
