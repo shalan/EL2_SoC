@@ -8,13 +8,34 @@ module el2_n5_soc_wrapper (
     input  wire         HRESETn,						// System Reset, active low
 
     // AHB-LITE MASTER PORT for Instructions
-    output wire [31:0]  HADDR,				// AHB transaction address
-    output wire [ 2:0]  HSIZE,				// AHB size: byte, half-word or word
-    output wire [ 1:0]  HTRANS,				// AHB transfer: non-sequential only
-    output wire [31:0]  HWDATA,				// AHB write-data
-    output wire         HWRITE,				// AHB write control
-    input  wire [63:0]  HRDATA,				// AHB read-data
-    input  wire         HREADY,				// AHB stall signal
+    output wire [31:0]  M0_HADDR,				// AHB transaction address
+    output wire [ 2:0]  M0_HSIZE,				// AHB size: byte, half-word or word
+    output wire [ 1:0]  M0_HTRANS,				// AHB transfer: non-sequential only
+    output wire [63:0]  M0_HWDATA,				// AHB write-data
+    output wire         M0_HWRITE,				// AHB write control
+    output wire [2:0]   M0_HBURST,
+    output wire [3:0]   M0_HPROT,
+    output wire         M0_HMASTLOCK,
+    output           M0_HBUSREQ,
+
+    input  wire [63:0]  M0_HRDATA,				// AHB read-data
+    input  wire         M0_HREADY,				// AHB stall signal
+    input  wire         M0_HGRANT,				
+
+    // AHB-LITE MASTER PORT for LSU 
+    output wire [31:0]  M1_HADDR,
+    output wire [ 2:0]  M1_HSIZE,				// AHB size: byte, half-word or word
+    output wire [ 1:0]  M1_HTRANS,				// AHB transfer: non-sequential only
+    output wire [63:0]  M1_HWDATA,				// AHB write-data
+    output wire         M1_HWRITE,				// AHB write control
+    output wire [2:0]   M1_HBURST,
+    output wire [3:0]   M1_HPROT,
+    output wire         M1_HMASTLOCK,
+    output           M1_HBUSREQ,
+
+    input  wire [63:0]  M1_HRDATA,				// AHB read-data
+    input  wire         M1_HREADY,				// AHB stall signal
+    input  wire         M1_HGRANT,				
 
     // MISCELLANEOUS 
     input  wire         NMI,				// Non-maskable interrupt input
@@ -23,6 +44,9 @@ module el2_n5_soc_wrapper (
     input  wire [23:0]	SYSTICKCLKDIV
 
 );
+
+assign M0_HBUSREQ = M0_HTRANS[1];
+assign M1_HBUSREQ = M1_HTRANS[1];
 
 el2_swerv_wrapper el2 ( 
         .clk(HCLK), 
@@ -37,21 +61,30 @@ el2_swerv_wrapper el2 (
         trace_rv_i_valid_ip, trace_rv_i_exception_ip, trace_rv_i_ecause_ip, 
         trace_rv_i_interrupt_ip, trace_rv_i_tval_ip, 
 */        
-        .haddr(HADDR), 
-        .hburst(), //
-        .hmastlock(), //
-        .hprot(), 
-        .hsize(HSIZE), 
-        .htrans(HTRANS), 
-        .hwrite(HWRITE), 
-        .hrdata(HRDATA), 
-        .hready(HREADY), 
+        .haddr(M0_HADDR), 
+        .hburst(M0_HBURST), //
+        .hmastlock(M0_HMASTLOCK), //
+        .hprot(M0_HPROT), 
+        .hsize(M0_HSIZE), 
+        .htrans(M0_HTRANS), 
+        .hwrite(M0_HWRITE), 
+        .hrdata(M0_HRDATA), 
+        .hready(M0_HREADY), 
         .hresp(1'b0), 
-        /*
-        lsu_haddr, 
-        lsu_hburst, lsu_hmastlock, lsu_hprot, lsu_hsize, lsu_htrans, 
-        lsu_hwrite, lsu_hwdata, lsu_hrdata, lsu_hready, lsu_hresp, 
         
+        .lsu_haddr(M1_HADDR), 
+        .lsu_hburst(M1_HBURST),
+        .lsu_hmastlock(M1_HMASTLOCK),
+        .lsu_hprot(M1_HPROT),
+        .lsu_hsize(M1_HSIZE),
+        .lsu_htrans(M1_HTRANS), 
+        .lsu_hwrite(M1_HWRITE),
+        .lsu_hwdata(M1_HWDATA),
+        .lsu_hrdata(M1_HRDATA),
+        .lsu_hready(M1_HREADY),
+        .lsu_hresp(1'b0), 
+        
+        /*
         sb_haddr, 
         sb_hburst, sb_hmastlock, sb_hprot, sb_hsize, sb_htrans, sb_hwrite, 
         sb_hwdata, sb_hrdata, sb_hready, sb_hresp, 
@@ -77,9 +110,6 @@ el2_swerv_wrapper el2 (
         i_cpu_halt_req, o_cpu_halt_ack, o_cpu_halt_status, o_debug_mode_status, 
         i_cpu_run_req, o_cpu_run_ack, scan_mode, mbist_mode */
         
-        .lsu_hresp(1'b0),
-        .lsu_hready(1'b1),
-
         .sb_hresp(1'b0),
         .sb_hready(1'b1),
         

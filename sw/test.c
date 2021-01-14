@@ -48,29 +48,31 @@ int main(){
     // Initialization
     uart_init (0, 0);
     gpio_set_dir(0x00FF);
+
     spi_init(0, 0,0,20);
     
     // Start the test
-    uart_puts (0, "Hello World!\n", 13);
+    // uart_puts (0, "Hello World!\n", 13);
     
-    // GPIO
-    uart_puts (0, "GPIO Test: ", 11);
-    gpio_write(0x0055);
-    DELAY(100);
-    int gpio_data = gpio_read();
-    if((gpio_data >> 8) == 0x55)
-        uart_puts(0,"Passed!\n", 8);
-    else
-        uart_puts(0,"Failed!\n", 8);
+    // // GPIO
+    // uart_puts (0, "GPIO Test: ", 11);
+    // gpio_write(0x0055);
+
+    // DELAY(100);
+    // int gpio_data = gpio_read();
+    // if((gpio_data >> 8) == 0x55)
+    //     uart_puts(0,"Passed!\n", 8);
+    // else
+    //     uart_puts(0,"Failed!\n", 8);
     
-    // External SPM Accelerator
-    uart_puts (0, "SPM Test: ", 9);
-    int factorial = fact(5);
-    DELAY(100);
-    if(factorial==120)
-        uart_puts(0,"Passed!\n", 8);
-    else 
-        uart_puts(0,"Failed!\n", 8);
+    // // External SPM Accelerator
+    // uart_puts (0, "SPM Test: ", 9);
+    // int factorial = fact(5);
+    // DELAY(100);
+    // if(factorial==120)
+    //     uart_puts(0,"Passed!\n", 8);
+    // else 
+    //     uart_puts(0,"Failed!\n", 8);
 
     // SPI
     uart_puts (0, "SPI Test: ", 9);
@@ -82,17 +84,17 @@ int main(){
     else 
         uart_puts(0,"Failed!\n", 8);
 
-    // PWM
-    pwm_init(0, 250, 99, 5);
- 	pwm_enable(0);
-    DELAY(300);
-    pwm_disable(0); 
+    // // PWM
+    // pwm_init(0, 250, 99, 5);
+ 	// pwm_enable(0);
+    // DELAY(300);
+    // pwm_disable(0); 
 
-    // Some Delay
-    DELAY(100);
+    // // Some Delay
+    // DELAY(100);
    
     // Done!
-    uart_puts(0, "Done!\n\n", 7);
+    // uart_puts(0, "Done!\n\n", 7);
     return 0;
 }
 

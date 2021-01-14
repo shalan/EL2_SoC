@@ -10,13 +10,13 @@ module soc_core (
 	input wire 			NMI,
 	input wire [7:0]	SYSTICKCLKDIV,
 
-	input wire [3: 0] 	fdi_Sys0_S0,
+	input wire  [3: 0] 	fdi_Sys0_S0,
 	output wire [3: 0] 	fdo_Sys0_S0,
 	output wire [0: 0] 	fdoe_Sys0_S0,
 	output wire [0: 0] 	fsclk_Sys0_S0,
 	output wire [0: 0] 	fcen_Sys0_S0,
 
-	input wire [15: 0] GPIOIN_Sys0_S2,
+	input wire  [15: 0] GPIOIN_Sys0_S2,
 	output wire [15: 0] GPIOOUT_Sys0_S2,
 	output wire [15: 0] GPIOPU_Sys0_S2,
 	output wire [15: 0] GPIOPD_Sys0_S2,
@@ -54,51 +54,48 @@ module soc_core (
 	output wire [0: 0] pwm_Sys0_SS0_S7
 );
 
-	wire [31: 0] HADDR_Sys0;
-	wire [31: 0] HWDATA_Sys0;
+	wire [`AW-1: 0] HADDR_Sys0;
+	wire [`DW-1: 0] HWDATA_Sys0;
 	wire HWRITE_Sys0;
 	wire [1: 0] HTRANS_Sys0;
 	wire [2:0] HSIZE_Sys0;
 
 	wire HREADY_Sys0;
-	wire [63: 0] HRDATA_Sys0;
+	wire [`DW-1: 0] HRDATA_Sys0;
 
-	wire [31: 0] SRAMRDATA_Sys0_S1;
-	wire [3: 0] SRAMWEN_Sys0_S1;
-	wire [31: 0] SRAMWDATA_Sys0_S1;
+	wire [`DW-1: 0] SRAMRDATA_Sys0_S1;
+	wire [7: 0] SRAMWEN_Sys0_S1;
+	wire [`DW-1: 0] SRAMWDATA_Sys0_S1;
 	wire [0: 0] SRAMCS0_Sys0_S1;
-	wire [11: 0] SRAMADDR_Sys0_S1;
+	wire [9: 0] SRAMADDR_Sys0_S1;
 
 	// AHB LITE Master2 Signals
-	wire [63:0] M2_HADDR;
-	wire [0:0] M2_HREADY;
-	wire [0:0] M2_HWRITE;
-	wire [1:0] M2_HTRANS;
-	wire [2:0] M2_HSIZE;
-	wire [31:0] M2_HWDATA;
-	wire [63:0] M2_HRDATA;
+	wire [`AW-1:0] M0_HADDR, M1_HADDR;
+	wire [0:0] M0_HREADY, M1_HREADY;
+	wire [0:0] M0_HWRITE, M1_HWRITE;
+	wire [1:0] M0_HTRANS, M1_HTRANS;
+	wire [2:0] M0_HSIZE, M1_HSIZE;
+	wire [`DW-1:0] M0_HWDATA, M1_HWDATA;
+	wire [`DW-1:0] M0_HRDATA, M1_HRDATA;
 	
-	wire [31: 0] M2_IRQ;
+	wire [31: 0] M0_IRQ;
 
-	wire [3:0] M2_HPROT;
-	wire [2:0] M2_HBURST;
-	wire M2_HBUSREQ;
-	wire M2_HLOCK;
-	wire M2_HGRANT;
+	wire [3:0] M0_HPROT, M1_HPROT;
+	wire [2:0] M0_HBURST, M1_HBURST;
+	wire M0_HMASTLOCK,  M1_HMASTLOCK;
 
-	//wire [63:0] SRAMRDATA0, SRAMRDATA1, SRAMRDATA2; 
+	wire M0_HBUSREQ, M1_HBUSREQ;
+	wire M0_HLOCK;
+	wire M0_HGRANT, M1_HGRANT;
 
-	assign M2_HREADY = HREADY_Sys0; 
-	assign M2_HRDATA = HRDATA_Sys0;
+	assign M0_HRDATA = HRDATA_Sys0;
+	assign M1_HRDATA = HRDATA_Sys0;
 
-	assign HADDR_Sys0 = M2_HADDR; 
-	assign HWDATA_Sys0 = M2_HWDATA; 
-	assign HWRITE_Sys0 = M2_HWRITE; 
-	assign HTRANS_Sys0 = M2_HTRANS; 
-	assign HSIZE_Sys0 = M2_HSIZE;
-	assign M2_HGRANT = 1'b1;
-	assign M2_HBUSREQ = 1'b1;
-
+	assign HADDR_Sys0 = M0_HADDR; 
+	assign HWDATA_Sys0 = M0_HWDATA; 
+	assign HWRITE_Sys0 = M0_HWRITE; 
+	assign HTRANS_Sys0 = M0_HTRANS; 
+	assign HSIZE_Sys0 = M0_HSIZE;
 
 	//AHBlite_SYS0 instantiation
 	AHBlite_sys_0 ahb_sys_0_uut(
@@ -106,13 +103,30 @@ module soc_core (
 		.HCLK(HCLK),
 		.HRESETn(HRESETn),
          
-		.HADDR(HADDR_Sys0),
-		.HWDATA(HWDATA_Sys0),
-		.HWRITE(HWRITE_Sys0),
-		.HTRANS(HTRANS_Sys0),
-		.HSIZE(HSIZE_Sys0),
-    
-		.HREADY(HREADY_Sys0),
+		.M0_HADDR(HADDR_Sys0),
+		.M0_HWDATA(HWDATA_Sys0),
+		.M0_HWRITE(HWRITE_Sys0),
+		.M0_HTRANS(HTRANS_Sys0),
+		.M0_HSIZE(HSIZE_Sys0),
+		.M0_HBURST(M0_HBURST),
+		.M0_HPROT(M0_HPROT),
+		.M0_HMASTLOCK(M0_HMASTLOCK),
+		.M0_HBUSREQ(M0_HBUSREQ),
+		.M0_HGRANT(M0_HGRANT),
+		.M0_HREADY(M0_HREADY),
+
+		.M1_HADDR(M1_HADDR),
+		.M1_HWDATA(M1_HWDATA),
+		.M1_HWRITE(M1_HWRITE),
+		.M1_HTRANS(M1_HTRANS),
+		.M1_HSIZE(M1_HSIZE),
+		.M1_HBURST(M1_HBURST),
+		.M1_HPROT(M1_HPROT),
+		.M1_HMASTLOCK(M1_HMASTLOCK),
+		.M1_HBUSREQ(M1_HBUSREQ),
+		.M1_HGRANT(M1_HGRANT),
+		.M1_HREADY(M1_HREADY),
+
 		.HRDATA(HRDATA_Sys0),
 		
 		// QSPI Interface
@@ -177,38 +191,58 @@ module soc_core (
 		.pwm_SS0_S6(pwm_Sys0_SS0_S6),
 		.pwm_SS0_S7(pwm_Sys0_SS0_S7),
 
-		.IRQ(M2_IRQ)
+		.IRQ(M0_IRQ)
 
 	);
 
 
-	RAM_4Kx32 RAM (
+	RAM_1024x64 RAM (
 		.CLK(HCLK),
 		.WE(SRAMWEN_Sys0_S1),
 		.EN(SRAMCS0_Sys0_S1),
 		.Di(SRAMWDATA_Sys0_S1),
 		.Do(SRAMRDATA_Sys0_S1),
-		.A(SRAMADDR_Sys0_S1[11:0])
+		.A(SRAMADDR_Sys0_S1[9:0])
 	);
 
 	// Instantiation of NfiVe32
 	el2_n5_soc_wrapper EL2 (
 		.HCLK(HCLK),
 		.HRESETn(HRESETn),
+		
+		// Instructions
+		.M0_HADDR(M0_HADDR),
+		.M0_HREADY(M0_HREADY),
+		.M0_HWRITE(M0_HWRITE),
+		.M0_HTRANS(M0_HTRANS),
+		.M0_HSIZE(M0_HSIZE),
+		.M0_HWDATA(M0_HWDATA),
+		.M0_HRDATA(M0_HRDATA),
+		.M0_HBURST(M0_HBURST),
+		.M0_HPROT(M0_HPROT),
+		.M0_HMASTLOCK(M0_HMASTLOCK),
+		.M0_HGRANT(M0_HGRANT),
+		.M0_HBUSREQ(M0_HBUSREQ),
 
-		.HADDR(M2_HADDR),
-		.HREADY(M2_HREADY),
-		.HWRITE(M2_HWRITE),
-		.HTRANS(M2_HTRANS),
-		.HSIZE(M2_HSIZE),
-		.HWDATA(M2_HWDATA),
-		.HRDATA(M2_HRDATA),
+		// LSU
+		.M1_HADDR(M1_HADDR),
+		.M1_HREADY(M1_HREADY),
+		.M1_HWRITE(M1_HWRITE),
+		.M1_HTRANS(M1_HTRANS),
+		.M1_HSIZE(M1_HSIZE),
+		.M1_HWDATA(M1_HWDATA),
+		.M1_HRDATA(M1_HRDATA),
+		.M1_HBURST(M1_HBURST),
+		.M1_HPROT(M1_HPROT),
+		.M1_HMASTLOCK(M1_HMASTLOCK),
+		.M1_HGRANT(M1_HGRANT),
+		.M1_HBUSREQ(M1_HBUSREQ),
 
 		//NMI
 		.NMI(NMI),
 
 		//Interrupts
-		.IRQ(M2_IRQ),
+		.IRQ(M0_IRQ[14:0]),
 
 		// SYSTICK Divisor
 		.SYSTICKCLKDIV(SYSTICKCLKDIV)
