@@ -1,5 +1,4 @@
 ENTRY(_start)
-
 MEMORY
 {
     FLASH (x) :
@@ -7,10 +6,10 @@ MEMORY
         LENGTH = 1M
     SRAM (rwx) :
         ORIGIN = 0x20000000,
-        LENGTH = 16K
+        LENGTH = 8K
     stack (rw):
-        ORIGIN = 0x20000000 + 12K
-        LENGTH = 4K
+        ORIGIN = 0x20000000 + 6K
+        LENGTH = 2K
 }
 
 PROVIDE(_fstack = ORIGIN(stack) + LENGTH(stack) - 4);

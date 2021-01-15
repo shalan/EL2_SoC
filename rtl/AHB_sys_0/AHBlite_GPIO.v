@@ -1,5 +1,6 @@
 `timescale 1ns/1ns
-    module AHBlite_GPIO (
+
+module AHBlite_GPIO (
     // AHB Interface
     // clock and reset 
     input  wire        HCLK,    

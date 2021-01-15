@@ -48,6 +48,7 @@ int main(){
     // Initialization
     uart_init (0, 0);
     gpio_set_dir(0x00FF);
+
     spi_init(0, 0,0,20);
     
     // Start the test
@@ -56,6 +57,7 @@ int main(){
     // GPIO
     uart_puts (0, "GPIO Test: ", 11);
     gpio_write(0x0055);
+
     DELAY(100);
     int gpio_data = gpio_read();
     if((gpio_data >> 8) == 0x55)

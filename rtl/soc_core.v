@@ -1,7 +1,14 @@
 
 `default_nettype none
 `timescale 1ns/1ns
-//`define		USE_DFFRAM_BEH
+
+`ifndef AW
+`define AW 32
+`endif
+
+`ifndef DW
+`define DW 64
+`endif
 
 module soc_core (
 	input HCLK, 
@@ -10,13 +17,13 @@ module soc_core (
 	input wire 			NMI,
 	input wire [7:0]	SYSTICKCLKDIV,
 
-	input wire [3: 0] 	fdi_Sys0_S0,
+	input wire  [3: 0] 	fdi_Sys0_S0,
 	output wire [3: 0] 	fdo_Sys0_S0,
 	output wire [0: 0] 	fdoe_Sys0_S0,
 	output wire [0: 0] 	fsclk_Sys0_S0,
 	output wire [0: 0] 	fcen_Sys0_S0,
 
-	input wire [15: 0] GPIOIN_Sys0_S2,
+	input wire  [15: 0] GPIOIN_Sys0_S2,
 	output wire [15: 0] GPIOOUT_Sys0_S2,
 	output wire [15: 0] GPIOPU_Sys0_S2,
 	output wire [15: 0] GPIOPD_Sys0_S2,
@@ -54,58 +61,47 @@ module soc_core (
 	output wire [0: 0] pwm_Sys0_SS0_S7
 );
 
-	wire [31: 0] HADDR_Sys0;
-	wire [31: 0] HWDATA_Sys0;
+	wire [`AW-1: 0] HADDR_Sys0;
+	wire [`DW-1: 0] HWDATA_Sys0;
 	wire HWRITE_Sys0;
 	wire [1: 0] HTRANS_Sys0;
 	wire [2:0] HSIZE_Sys0;
 
 	wire HREADY_Sys0;
-	wire [63: 0] HRDATA_Sys0;
+	wire [`DW-1: 0] HRDATA_Sys0;
 
-	wire [31: 0] SRAMRDATA_Sys0_S1;
-	wire [3: 0] SRAMWEN_Sys0_S1;
-	wire [31: 0] SRAMWDATA_Sys0_S1;
+	wire [`DW-1: 0] SRAMRDATA_Sys0_S1;
+	wire [7: 0] SRAMWEN_Sys0_S1;
+	wire [`DW-1: 0] SRAMWDATA_Sys0_S1;
 	wire [0: 0] SRAMCS0_Sys0_S1;
-	wire [11: 0] SRAMADDR_Sys0_S1;
+	wire [9: 0] SRAMADDR_Sys0_S1;
 
-	// AHB LITE Master2 Signals
-	wire [63:0] M2_HADDR;
-	wire [0:0] M2_HREADY;
-	wire [0:0] M2_HWRITE;
-	wire [1:0] M2_HTRANS;
-	wire [2:0] M2_HSIZE;
-	wire [31:0] M2_HWDATA;
-	wire [63:0] M2_HRDATA;
+	wire [31: 0] M0_IRQ;
+
+	// AHB LITE Master Signals
+	wire [`AW-1:0] HADDR;
+	wire [0:0]  HREADY;
+	wire [0:0]  HWRITE;
+	wire [1:0]  HTRANS;
+	wire [2:0]  HSIZE;
+	wire [`DW-1:0] HWDATA;
+	wire [`DW-1:0] HRDATA;
 	
-	wire [31: 0] M2_IRQ;
+	assign HRDATA = HRDATA_Sys0;
+	assign HREADY = HREADY_Sys0; 
 
-	wire [3:0] M2_HPROT;
-	wire [2:0] M2_HBURST;
-	wire M2_HBUSREQ;
-	wire M2_HLOCK;
-	wire M2_HGRANT;
-
-	//wire [63:0] SRAMRDATA0, SRAMRDATA1, SRAMRDATA2; 
-
-	assign M2_HREADY = HREADY_Sys0; 
-	assign M2_HRDATA = HRDATA_Sys0;
-
-	assign HADDR_Sys0 = M2_HADDR; 
-	assign HWDATA_Sys0 = M2_HWDATA; 
-	assign HWRITE_Sys0 = M2_HWRITE; 
-	assign HTRANS_Sys0 = M2_HTRANS; 
-	assign HSIZE_Sys0 = M2_HSIZE;
-	assign M2_HGRANT = 1'b1;
-	assign M2_HBUSREQ = 1'b1;
-
+	assign HADDR_Sys0  = HADDR; 
+	assign HWDATA_Sys0 = HWDATA; 
+	assign HWRITE_Sys0 = HWRITE; 
+	assign HTRANS_Sys0 = HTRANS; 
+	assign HSIZE_Sys0  = HSIZE;
 
 	//AHBlite_SYS0 instantiation
 	AHBlite_sys_0 ahb_sys_0_uut(
 
 		.HCLK(HCLK),
 		.HRESETn(HRESETn),
-         
+	
 		.HADDR(HADDR_Sys0),
 		.HWDATA(HWDATA_Sys0),
 		.HWRITE(HWRITE_Sys0),
@@ -177,41 +173,41 @@ module soc_core (
 		.pwm_SS0_S6(pwm_Sys0_SS0_S6),
 		.pwm_SS0_S7(pwm_Sys0_SS0_S7),
 
-		.IRQ(M2_IRQ)
+		.IRQ(M0_IRQ)
 
 	);
 
 
-	RAM_4Kx32 RAM (
+	RAM_1024x64 RAM (
 		.CLK(HCLK),
 		.WE(SRAMWEN_Sys0_S1),
 		.EN(SRAMCS0_Sys0_S1),
 		.Di(SRAMWDATA_Sys0_S1),
 		.Do(SRAMRDATA_Sys0_S1),
-		.A(SRAMADDR_Sys0_S1[11:0])
+		.A(SRAMADDR_Sys0_S1[9:0])
 	);
 
-	// Instantiation of NfiVe32
 	el2_n5_soc_wrapper EL2 (
 		.HCLK(HCLK),
 		.HRESETn(HRESETn),
 
-		.HADDR(M2_HADDR),
-		.HREADY(M2_HREADY),
-		.HWRITE(M2_HWRITE),
-		.HTRANS(M2_HTRANS),
-		.HSIZE(M2_HSIZE),
-		.HWDATA(M2_HWDATA),
-		.HRDATA(M2_HRDATA),
+		.HADDR(HADDR),
+		.HREADY(HREADY),
+		.HWRITE(HWRITE),
+		.HTRANS(HTRANS),
+		.HSIZE(HSIZE),
+		.HWDATA(HWDATA),
+		.HRDATA(HRDATA),
 
 		//NMI
 		.NMI(NMI),
 
 		//Interrupts
-		.IRQ(M2_IRQ),
+		.IRQ(M0_IRQ),
 
 		// SYSTICK Divisor
 		.SYSTICKCLKDIV(SYSTICKCLKDIV)
 	);
+
   endmodule
   

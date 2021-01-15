@@ -4,6 +4,7 @@
 +define+UNIT_DELAY=#1
 ../pdk/sky130_fd_sc_hd.v
 
+../rtl/AHB_sys_0/AHBlite_64bit_bridge.v 
 ../rtl/AHB_sys_0/AHBlite_sys_0.v 
 ../rtl/AHB_sys_0/AHBlite_bus0.v
 ../rtl/AHB_sys_0/AHBlite_GPIO.v
@@ -33,7 +34,7 @@
 #../rtl/IPs/DFFRAM.v
 #../rtl/IPs/DFFRAMBB.v
 +define+USE_DFFRAM_BEH=1
-../rtl/IPs/RAM_4Kx32.v
+../rtl/IPs/RAM_1024x64.v
 ../rtl/acc/AHB_SPM.v
 
 +define+USE_DFFRAM_BEH=1

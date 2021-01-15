@@ -4,22 +4,22 @@
 
 */
 module el2_n5_soc_wrapper (
-    input  wire         HCLK,							// System clock
-    input  wire         HRESETn,						// System Reset, active low
+    input  wire         HCLK,				// System clock
+    input  wire         HRESETn,			// System Reset, active low
 
-    // AHB-LITE MASTER PORT for Instructions
-    output wire [31:0]  HADDR,				// AHB transaction address
-    output wire [ 2:0]  HSIZE,				// AHB size: byte, half-word or word
+   // AHB-LITE MASTER PORT for Instructions
+    output wire [`AW-1:0]  HADDR,			// AHB transaction address
+    output wire [ 2:0]   HSIZE,				// AHB size: byte, half-word or word
     output wire [ 1:0]  HTRANS,				// AHB transfer: non-sequential only
-    output wire [31:0]  HWDATA,				// AHB write-data
+    output wire [`DW-1:0]  HWDATA,			// AHB write-data
     output wire         HWRITE,				// AHB write control
-    input  wire [63:0]  HRDATA,				// AHB read-data
+    input  wire [`DW-1:0]  HRDATA,			// AHB read-data
     input  wire         HREADY,				// AHB stall signal
 
     // MISCELLANEOUS 
     input  wire         NMI,				// Non-maskable interrupt input
-    input  wire         EXT_IRQ,				// Interrupt request line
-    input wire [14:0]   IRQ, 
+    input  wire         EXT_IRQ,		        // Interrupt request line
+    input  wire [14:0]   IRQ, 
     input  wire [23:0]	SYSTICKCLKDIV
 
 );
@@ -53,7 +53,7 @@ Mux2M1S MUX (
 	.HWRITE_M1(ifu_hwrite),
 	.HSIZE_M1(ifu_hsize),
 	.HWDATA_M1(),
-	.HREADY_M1(ifu_hrdata),
+	.HREADY_M1(ifu_hready),
 	.HRDATA_M1(ifu_hrdata),
 	
 	.HADDR_M2(lsu_haddr),
@@ -61,7 +61,7 @@ Mux2M1S MUX (
 	.HWRITE_M2(lsu_hwrite),
 	.HSIZE_M2(lsu_hsize),
 	.HWDATA_M2(lsu_hwdata),
-	.HREADY_M2(lsu_hrdata),
+	.HREADY_M2(lsu_hready),
 	.HRDATA_M2(lsu_hrdata),
 	
 	.HREADY(HREADY),
@@ -218,7 +218,7 @@ module Mux2M1S #(parameter SZ=64) (
 		case (state)
 		  S0  : if(HTRANS_M1[1]) nstate = S1; else if(HTRANS_M2[1]) nstate = S2; else nstate = S0;
 		  S1  : if(!HTRANS_M1[1]) nstate = S2; else nstate = S1;
-		  S1  : if(!HTRANS_M2[1]) nstate = S1; else nstate = S2;
+		  S2  : if(!HTRANS_M2[1]) nstate = S1; else nstate = S2;
 		endcase
 	end
 
