@@ -217,8 +217,8 @@ module Mux2M1S #(parameter SZ=64) (
 		nstate = S0;
 		case (state)
 		  S0  : if(HTRANS_M1[1]) nstate = S1; else if(HTRANS_M2[1]) nstate = S2; else nstate = S0;
-		  S1  : if(!HTRANS_M1[1]) nstate = S2; else nstate = S1;
-		  S2  : if(!HTRANS_M2[1]) nstate = S1; else nstate = S2;
+		  S1  : if(!HTRANS_M1[1] & HREADY) nstate = S2; else nstate = S1;
+		  S2  : if(!HTRANS_M2[1] & HREADY) nstate = S1; else nstate = S2;
 		endcase
 	end
 
