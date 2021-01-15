@@ -24,6 +24,56 @@ module el2_n5_soc_wrapper (
 
 );
 
+        wire [31:0] ifu_haddr;
+        wire [2:0] ifu_hburst;
+        wire [3:0] ifu_hprot;
+        wire [2:0] ifu_hsize;
+        wire [1:0] ifu_htrans;
+        wire [63:0] ifu_hrdata;
+        wire [31:0] lsu_haddr;
+        wire [2:0] lsu_hburst;
+        wire [3:0] lsu_hprot;
+        wire [2:0] lsu_hsize;
+        wire [1:0] lsu_htrans;
+        wire [63:0] lsu_hwdata;
+        wire [63:0] lsu_hrdata;
+
+        wire lsu_hwrite;
+        wire ifu_hwrite;
+
+        wire ifu_hready;
+        wire lsu_hready;
+
+Mux2M1S MUX (
+	.HCLK(HCLK),
+	.HRESETn(),
+	
+	.HADDR_M1(ifu_haddr),
+	.HTRANS_M1(ifu_htrans),
+	.HWRITE_M1(ifu_hwrite),
+	.HSIZE_M1(ifu_hsize),
+	.HWDATA_M1(),
+	.HREADY_M1(ifu_hrdata),
+	.HRDATA_M1(ifu_hrdata),
+	
+	.HADDR_M2(lsu_haddr),
+	.HTRANS_M2(lsu_htrans),
+	.HWRITE_M2(lsu_hwrite),
+	.HSIZE_M2(lsu_hsize),
+	.HWDATA_M2(lsu_hwdata),
+	.HREADY_M2(lsu_hrdata),
+	.HRDATA_M2(lsu_hrdata),
+	
+	.HREADY(HREADY),
+	.HRDATA(HRDATA),
+	.HADDR(HADDR),
+	.HTRANS(HTRANS),
+	.HWRITE(HWRITE),
+	.HSIZE(HSIZE),
+	.HWDATA(HWDATA)
+);
+
+
 el2_swerv_wrapper el2 ( 
         .clk(HCLK), 
         .rst_l(HRESETn), 
@@ -37,21 +87,29 @@ el2_swerv_wrapper el2 (
         trace_rv_i_valid_ip, trace_rv_i_exception_ip, trace_rv_i_ecause_ip, 
         trace_rv_i_interrupt_ip, trace_rv_i_tval_ip, 
 */        
-        .haddr(HADDR), 
+        .haddr(ifu_haddr), 
         .hburst(), //
         .hmastlock(), //
         .hprot(), 
-        .hsize(HSIZE), 
-        .htrans(HTRANS), 
-        .hwrite(HWRITE), 
-        .hrdata(HRDATA), 
-        .hready(HREADY), 
+        .hsize(ifu_hsize), 
+        .htrans(ifu_htrans), 
+        .hwrite(ifu_hwrite), 
+        .hrdata(ifu_hrdata), 
+        .hready(ifu_hready), 
         .hresp(1'b0), 
-        /*
-        lsu_haddr, 
-        lsu_hburst, lsu_hmastlock, lsu_hprot, lsu_hsize, lsu_htrans, 
-        lsu_hwrite, lsu_hwdata, lsu_hrdata, lsu_hready, lsu_hresp, 
         
+        .lsu_haddr(lsu_haddr), 
+        .lsu_hburst(), 
+        .lsu_hmastlock(), 
+        .lsu_hprot(), 
+        .lsu_hsize(lsu_hsize), 
+        .lsu_htrans(lsu_htrans), 
+        .lsu_hwrite(lsu_hwrite), 
+        .lsu_hwdata(lsu_hwdata), 
+        .lsu_hrdata(lsu_hrdata), 
+        .lsu_hready(lsu_hready), 
+        .lsu_hresp(1'b0), 
+        /*
         sb_haddr, 
         sb_hburst, sb_hmastlock, sb_hprot, sb_hsize, sb_htrans, sb_hwrite, 
         sb_hwdata, sb_hrdata, sb_hready, sb_hresp, 
@@ -77,8 +135,8 @@ el2_swerv_wrapper el2 (
         i_cpu_halt_req, o_cpu_halt_ack, o_cpu_halt_status, o_debug_mode_status, 
         i_cpu_run_req, o_cpu_run_ack, scan_mode, mbist_mode */
         
-        .lsu_hresp(1'b0),
-        .lsu_hready(1'b1),
+        //.lsu_hresp(1'b0),
+        //.lsu_hready(1'b1),
 
         .sb_hresp(1'b0),
         .sb_hready(1'b1),
@@ -113,4 +171,107 @@ el2_swerv_wrapper el2 (
 
 
 
+endmodule
+
+module Mux2M1S #(parameter SZ=64) (
+	input HCLK,
+	input HRESETn,
+	
+	input  [31:0] 	HADDR_M1,
+	input   [1:0] 	HTRANS_M1,
+	input         	HWRITE_M1,
+	input   [2:0] 	HSIZE_M1,
+	input  [SZ-1:0]	HWDATA_M1,
+	output		HREADY_M1,
+	output [SZ-1:0] HRDATA_M1,
+	
+	input  [31:0] 	HADDR_M2,
+	input   [1:0] 	HTRANS_M2,
+	input         	HWRITE_M2,
+	input   [2:0] 	HSIZE_M2,
+	input  [SZ-1:0]	HWDATA_M2,
+	output		HREADY_M2,
+	output [SZ-1:0]	HRDATA_M2,
+	
+	input		HREADY,
+	input  [SZ-1:0]	HRDATA,
+	output [31:0] 	HADDR,
+	output  [1:0] 	HTRANS,
+	output        	HWRITE,
+	output  [2:0] 	HSIZE,
+	output [SZ-1:0]	HWDATA
+);
+	
+	localparam [4:0] S0 = 1;
+	localparam [4:0] S1 = 2;
+	localparam [4:0] S2 = 4;
+	localparam [4:0] S3 = 8;
+	localparam [4:0] S4 = 16;
+
+	reg [4:0] 		state, nstate;
+	always @(posedge HCLK or negedge HRESETn)
+		if(!HRESETn) state <= S0;
+		else state <= nstate;
+
+	always @* begin
+		nstate = S0;
+		case (state)
+		  S0  : if(HTRANS_M1[1]) nstate = S1; else if(HTRANS_M2[1]) nstate = S2; else nstate = S0;
+		  S1  : if(!HTRANS_M1[1]) nstate = S2; else nstate = S1;
+		  S1  : if(!HTRANS_M2[1]) nstate = S1; else nstate = S2;
+		endcase
+	end
+
+	assign HREADY_M1 = (state == S0) ? 1'b1 : (state == S1) ? HREADY : ((state == S2) && (HTRANS_M2[1] == 1'b0)) ? HREADY : 1'b0;
+	assign HREADY_M2 = (state == S0) ? 1'b1 : (state == S2) ? HREADY : ((state == S1) && (HTRANS_M1[1] == 1'b0)) ? HREADY : 1'b0;
+	
+	assign HRDATA_M1 = HRDATA;
+	assign HRDATA_M2 = HRDATA;
+	
+	reg [1:0] htrans;
+	always @*
+		case (state)
+			S0:	htrans = 2'b00;
+			S1: htrans = (HTRANS_M1[1]) ? HTRANS_M1 : HTRANS_M2;
+			S2: htrans = (HTRANS_M2[1]) ? HTRANS_M2 : HTRANS_M1;
+		endcase
+	
+	reg [31:0] haddr;
+	always @*
+		case (state)
+			S0:	haddr = 32'b0;
+			S1: htrans = (HTRANS_M1[1]) ? HADDR_M1 : HADDR_M2;
+			S2: htrans = (HTRANS_M2[1]) ? HADDR_M2 : HADDR_M1;
+		endcase
+	
+	reg [0:0] hwrite;
+	always @*
+		case (state)
+			S0:	hwrite = 32'b0;
+			S1: htrans = (HTRANS_M1[1]) ? HWRITE_M1 : HWRITE_M2;
+			S2: htrans = (HTRANS_M2[1]) ? HWRITE_M2 : HWRITE_M1;
+		endcase
+		
+	reg [2:0] hsize;
+	always @*
+		case (state)
+			S0:	hsize = 32'b0;
+			S1: htrans = (HTRANS_M1[1]) ? HSIZE_M1 : HSIZE_M2;
+			S2: htrans = (HTRANS_M2[1]) ? HSIZE_M2 : HSIZE_M1;
+		endcase
+			
+	reg [SZ-1:0] hwdata;
+	always @*
+		case (state)
+			S0: hwdata = 32'b0;
+			S1: hwdata = HWDATA_M1;
+			S2: hwdata = HWDATA_M2;
+		endcase
+			
+	assign HTRANS = htrans;
+	assign HADDR = haddr;
+	assign HWDATA = hwdata;
+	assign HSIZE = hsize;
+	assign HWRITE = hwrite;
+	
 endmodule
