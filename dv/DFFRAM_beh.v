@@ -28,5 +28,4 @@ module DFFRAM_beh #( parameter COLS=1)
         end 
         else
             Do <= 32'b0;
-            
 endmodule

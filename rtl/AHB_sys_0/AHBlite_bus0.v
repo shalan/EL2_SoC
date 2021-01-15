@@ -5,37 +5,37 @@
         input wire HRESETn,
       
         // Master Interface
-        input wire [31:0] HADDR,
-        input wire [31:0] HWDATA, 
-        output wire [63:0] HRDATA,
+        input wire [`AW-1:0] HADDR,
+        input wire [`DW-1:0] HWDATA, 
+        output wire [`DW-1:0] HRDATA,
         output wire        HREADY,
         // Slave # 0
         output wire         HSEL_S0,
         input wire          HREADY_S0,
-        input wire  [63:0]  HRDATA_S0,
+        input wire  [`DW-1:0]  HRDATA_S0,
         // Slave # 1
         output wire         HSEL_S1,
         input wire          HREADY_S1,
-        input wire  [63:0]  HRDATA_S1,
+        input wire  [`DW-1:0]  HRDATA_S1,
         // Slave # 2
         output wire         HSEL_S2,
         input wire          HREADY_S2,
-        input wire  [63:0]  HRDATA_S2,
+        input wire  [`DW-1:0]  HRDATA_S2,
         // Slave # 3
         output wire         HSEL_S3,
         input wire          HREADY_S3,
-        input wire  [63:0]  HRDATA_S3,
+        input wire  [`DW-1:0]  HRDATA_S3,
 
         // Slave # 4
         output wire         HSEL_S4,
         input wire          HREADY_S4,
-        input wire  [31:0]  HRDATA_S4,
+        input wire  [`DW-1:0]  HRDATA_S4,
 
 
         // SubSystem # 0
         output wire         HSEL_SS0,
         input wire          HREADY_SS0,
-        input wire  [63:0]  HRDATA_SS0
+        input wire  [`DW-1:0]  HRDATA_SS0
     );
         wire [7:0]  PAGE = HADDR[31:24];
         reg [7:0] APAGE;
