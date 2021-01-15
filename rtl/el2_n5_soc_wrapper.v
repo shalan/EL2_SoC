@@ -53,7 +53,7 @@ Mux2M1S MUX (
 	.HWRITE_M1(ifu_hwrite),
 	.HSIZE_M1(ifu_hsize),
 	.HWDATA_M1(),
-	.HREADY_M1(ifu_hrdata),
+	.HREADY_M1(ifu_hready),
 	.HRDATA_M1(ifu_hrdata),
 	
 	.HADDR_M2(lsu_haddr),
@@ -61,7 +61,7 @@ Mux2M1S MUX (
 	.HWRITE_M2(lsu_hwrite),
 	.HSIZE_M2(lsu_hsize),
 	.HWDATA_M2(lsu_hwdata),
-	.HREADY_M2(lsu_hrdata),
+	.HREADY_M2(lsu_hready),
 	.HRDATA_M2(lsu_hrdata),
 	
 	.HREADY(HREADY),
@@ -231,7 +231,7 @@ module Mux2M1S #(parameter SZ=64) (
 	reg [1:0] htrans;
 	always @*
 		case (state)
-			S0:	htrans = 2'b00;
+			S0: htrans = (HTRANS_M1[1]) ? HTRANS_M1 : 2'b00;
 			S1: htrans = (HTRANS_M1[1]) ? HTRANS_M1 : HTRANS_M2;
 			S2: htrans = (HTRANS_M2[1]) ? HTRANS_M2 : HTRANS_M1;
 		endcase
@@ -239,25 +239,25 @@ module Mux2M1S #(parameter SZ=64) (
 	reg [31:0] haddr;
 	always @*
 		case (state)
-			S0:	haddr = 32'b0;
-			S1: htrans = (HTRANS_M1[1]) ? HADDR_M1 : HADDR_M2;
-			S2: htrans = (HTRANS_M2[1]) ? HADDR_M2 : HADDR_M1;
+			S0: haddr = (HTRANS_M1[1]) ? HADDR_M1 : 32'b0;
+			S1: haddr = (HTRANS_M1[1]) ? HADDR_M1 : HADDR_M2;
+			S2: haddr = (HTRANS_M2[1]) ? HADDR_M2 : HADDR_M1;
 		endcase
 	
 	reg [0:0] hwrite;
 	always @*
 		case (state)
-			S0:	hwrite = 32'b0;
-			S1: htrans = (HTRANS_M1[1]) ? HWRITE_M1 : HWRITE_M2;
-			S2: htrans = (HTRANS_M2[1]) ? HWRITE_M2 : HWRITE_M1;
+			S0: hwrite = (HTRANS_M1[1]) ? HWRITE_M1 : 32'b0;
+			S1: hwrite = (HTRANS_M1[1]) ? HWRITE_M1 : HWRITE_M2;
+			S2: hwrite = (HTRANS_M2[1]) ? HWRITE_M2 : HWRITE_M1;
 		endcase
 		
 	reg [2:0] hsize;
 	always @*
 		case (state)
-			S0:	hsize = 32'b0;
-			S1: htrans = (HTRANS_M1[1]) ? HSIZE_M1 : HSIZE_M2;
-			S2: htrans = (HTRANS_M2[1]) ? HSIZE_M2 : HSIZE_M1;
+			S0: hsize = (HTRANS_M1[1]) ? HSIZE_M1 : 32'b0;
+			S1: hsize = (HTRANS_M1[1]) ? HSIZE_M1 : HSIZE_M2;
+			S2: hsize = (HTRANS_M2[1]) ? HSIZE_M2 : HSIZE_M1;
 		endcase
 			
 	reg [SZ-1:0] hwdata;
