@@ -83,6 +83,14 @@ reset_hand:
 	li t0, 0	#disable interrupts; use 5 to enable interrupts and IRQ
 	wrmie t0
   _start:
+	li	s0, 0x20000000
+	li	s1, 55
+	sw	s1, 0(s0)
+	addi s1, s1, 10
+	sw	s1, 4(s0)
+	lw	s2, 0(s0)
+	lw	s3, 4(s0)
+	
 	li	s0, 0
 	li	s1, 0
 	li	s2, 0
