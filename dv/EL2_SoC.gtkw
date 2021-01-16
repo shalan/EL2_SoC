@@ -1,0 +1,106 @@
+[*]
+[*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
+[*] Sat Jan 16 10:25:21 2021
+[*]
+[dumpfile] "/Users/mshalan/work/GH-Repos/EL2_SoC/dv/N5_SoC_TB.vcd"
+[dumpfile_mtime] "Sat Jan 16 10:19:23 2021"
+[dumpfile_size] 64275114
+[savefile] "/Users/mshalan/work/GH-Repos/EL2_SoC/dv/EL2_SoC.gtkw"
+[timestart] 322255600
+[size] 2341 1199
+[pos] -1 -1
+*-14.960888 322396000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] N5_SoC_TB.
+[treeopen] N5_SoC_TB.MUV.
+[treeopen] N5_SoC_TB.MUV.ahb_sys_0_uut.
+[treeopen] N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.
+[treeopen] N5_SoC_TB.MUV.EL2.
+[sst_width] 218
+[signals_width] 315
+[sst_expanded] 1
+[sst_vpaned_height] 490
+@28
+N5_SoC_TB.HRESETn
+N5_SoC_TB.HCLK
+@200
+-
+-AHB Signals
+@28
+N5_SoC_TB.MUV.EL2.HREADY
+N5_SoC_TB.MUV.EL2.HTRANS[1:0]
+@22
+N5_SoC_TB.MUV.EL2.MUX.HADDR[31:0]
+N5_SoC_TB.MUV.EL2.HRDATA[63:0]
+N5_SoC_TB.MUV.EL2.HWDATA[63:0]
+@28
+N5_SoC_TB.MUV.EL2.HWRITE
+@200
+-
+-Fetch Unit Ports
+@28
+N5_SoC_TB.MUV.EL2.ifu_hready
+N5_SoC_TB.MUV.EL2.ifu_htrans[1:0]
+@22
+N5_SoC_TB.MUV.EL2.ifu_haddr[31:0]
+N5_SoC_TB.MUV.EL2.ifu_hrdata[63:0]
+@28
+N5_SoC_TB.MUV.EL2.ifu_hsize[2:0]
+@200
+-
+-Load/Store Unit Ports
+@28
+N5_SoC_TB.MUV.EL2.lsu_hready
+N5_SoC_TB.MUV.EL2.lsu_htrans[1:0]
+@22
+N5_SoC_TB.MUV.EL2.lsu_haddr[31:0]
+N5_SoC_TB.MUV.EL2.lsu_hrdata[63:0]
+@28
+N5_SoC_TB.MUV.EL2.lsu_hsize[2:0]
+@22
+N5_SoC_TB.MUV.EL2.lsu_hwdata[63:0]
+@28
+N5_SoC_TB.MUV.EL2.lsu_hwrite
+@200
+-
+-Masters MUX
+@c00022
+N5_SoC_TB.MUV.EL2.MUX.state[4:0]
+@28
+(0)N5_SoC_TB.MUV.EL2.MUX.state[4:0]
+(1)N5_SoC_TB.MUV.EL2.MUX.state[4:0]
+(2)N5_SoC_TB.MUV.EL2.MUX.state[4:0]
+(3)N5_SoC_TB.MUV.EL2.MUX.state[4:0]
+(4)N5_SoC_TB.MUV.EL2.MUX.state[4:0]
+@1401200
+-group_end
+@28
+N5_SoC_TB.MUV.EL2.MUX.HTRANS[1:0]
+N5_SoC_TB.MUV.EL2.MUX.HTRANS_M1[1:0]
+N5_SoC_TB.MUV.EL2.MUX.HTRANS_M2[1:0]
+N5_SoC_TB.MUV.EL2.MUX.HREADY
+N5_SoC_TB.MUV.EL2.MUX.HREADY_M1
+N5_SoC_TB.MUV.EL2.MUX.HREADY_M2
+@200
+-
+-UART
+@28
+N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S0.RsTx
+@821
+N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S0.tx_data[7:0]
+@200
+-
+-SPI
+@28
+N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S2.SSn
+N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S2.SCLK
+N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S2.MSI
+N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S2.MSO
+@22
+N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S2.SPI_DATAo_REG[7:0]
+@28
+N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S2.SPI_CTRL_REG[1:0]
+@22
+N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S2.SPI_DATAi_REG[7:0]
+N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S2.SPI_DATAo_REG[7:0]
+[pattern_trace] 1
+[pattern_trace] 0
