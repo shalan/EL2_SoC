@@ -67,13 +67,14 @@ int main(){
     
     // External SPM Accelerator
     uart_puts (0, "SPM Test: ", 9);
+    /*
     int factorial = fact(5);
     DELAY(100);
     if(factorial==120)
         uart_puts(0,"Passed!\n", 8);
     else 
         uart_puts(0,"Failed!\n", 8);
-
+*/
     // SPI
     uart_puts (0, "SPI Test: ", 9);
     M23LC_write_byte(0, 0, 0xA5);

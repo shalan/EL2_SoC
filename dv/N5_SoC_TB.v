@@ -166,7 +166,7 @@ module N5_SoC_TB;
 
     // Dump file
     initial begin
-        $dumpfile("N5_SoC_TB.vcd");
+        $dumpfile("EL2_SoC_TB.vcd");
         $dumpvars(`SIM_LEVEL, N5_SoC_TB);
         #`SIM_TIME;
         $finish;

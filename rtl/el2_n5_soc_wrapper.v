@@ -173,6 +173,11 @@ el2_swerv_wrapper el2 (
 
 endmodule
 
+/*
+        A quick and rough AHB master multiplexor
+        Each master is given the bus till it gives it up.
+        This is fine for IFU and LSU AHB master ports.
+*/
 module Mux2M1S #(parameter SZ=64) (
 	input HCLK,
 	input HRESETn,
@@ -234,6 +239,7 @@ module Mux2M1S #(parameter SZ=64) (
 			S0: htrans = (HTRANS_M1[1]) ? HTRANS_M1 : 2'b00;
 			S1: htrans = (HTRANS_M1[1]) ? HTRANS_M1 : HTRANS_M2;
 			S2: htrans = (HTRANS_M2[1]) ? HTRANS_M2 : HTRANS_M1;
+                        default: htrans = 2'b00;
 		endcase
 	
 	reg [31:0] haddr;
@@ -242,30 +248,34 @@ module Mux2M1S #(parameter SZ=64) (
 			S0: haddr = (HTRANS_M1[1]) ? HADDR_M1 : 32'b0;
 			S1: haddr = (HTRANS_M1[1]) ? HADDR_M1 : HADDR_M2;
 			S2: haddr = (HTRANS_M2[1]) ? HADDR_M2 : HADDR_M1;
+                        default: haddr = 32'b0;
 		endcase
 	
 	reg [0:0] hwrite;
 	always @*
 		case (state)
-			S0: hwrite = (HTRANS_M1[1]) ? HWRITE_M1 : 32'b0;
+			S0: hwrite = (HTRANS_M1[1]) ? HWRITE_M1 : 1'b0;
 			S1: hwrite = (HTRANS_M1[1]) ? HWRITE_M1 : HWRITE_M2;
 			S2: hwrite = (HTRANS_M2[1]) ? HWRITE_M2 : HWRITE_M1;
+                        default: hwrite = 1'b0;
 		endcase
 		
 	reg [2:0] hsize;
 	always @*
 		case (state)
-			S0: hsize = (HTRANS_M1[1]) ? HSIZE_M1 : 32'b0;
+			S0: hsize = (HTRANS_M1[1]) ? HSIZE_M1 : 3'b0;
 			S1: hsize = (HTRANS_M1[1]) ? HSIZE_M1 : HSIZE_M2;
 			S2: hsize = (HTRANS_M2[1]) ? HSIZE_M2 : HSIZE_M1;
+                        default: hsize = 3'b0;
 		endcase
 			
 	reg [SZ-1:0] hwdata;
 	always @*
 		case (state)
-			S0: hwdata = 32'b0;
+			S0: hwdata = 64'b0;
 			S1: hwdata = HWDATA_M1;
 			S2: hwdata = HWDATA_M2;
+                        default: hwdata = 64'b0;
 		endcase
 			
 	assign HTRANS = htrans;
