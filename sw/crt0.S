@@ -161,7 +161,9 @@ end_init_data:
 	lui sp, %hi(_fstack)
 	addi sp, sp, %lo(_fstack)
 	jal main
-	ebreak;
+
+end_loop:
+	j 	end_loop
 
 	.align 8
 
