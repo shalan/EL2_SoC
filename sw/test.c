@@ -49,7 +49,7 @@ int main(){
     uart_init (0, 0);
     gpio_set_dir(0x00FF);
 
-    spi_init(0, 0,0,20);
+    spi_init(0, 0,0,40);
     
     // Start the test
     uart_puts (0, "Hello World!\n", 13);
@@ -79,7 +79,7 @@ int main(){
     uart_puts (0, "SPI Test: ", 9);
     M23LC_write_byte(0, 0, 0xA5);
     unsigned int spi_data = M23LC_read_byte(0, 0);
-    DELAY(100);
+    DELAY(10);
     if(spi_data==0xA5)
         uart_puts(0,"Passed!\n", 8);
     else 
@@ -88,11 +88,11 @@ int main(){
     // PWM
     pwm_init(0, 250, 99, 5);
  	pwm_enable(0);
-    DELAY(300);
+    DELAY(30);
     pwm_disable(0); 
 
     // Some Delay
-    DELAY(100);
+    DELAY(30);
    
     // Done!
     uart_puts(0, "Done!\n\n", 7);
