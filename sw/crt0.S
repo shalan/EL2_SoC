@@ -79,6 +79,8 @@ ebreak_vector:
 
 	.org 128
 reset_hand:
+	li t0, 1<<(4*2+1)
+	csrw 0x7c0,t0  # make IO region (4) side effect
 	# disable interrupts
 	li t0, 0	#disable interrupts; use 5 to enable interrupts and IRQ
 	wrmie t0
