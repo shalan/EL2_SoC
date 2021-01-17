@@ -62,10 +62,10 @@ unsigned int volatile *const UART1_RXTH = (unsigned int *)(APB_UART_1_BASE_ADDR 
 
 /* SPI Master Controllers */
 #define SPI_DATA_REG            0x00000000
-#define SPI_CTRL_REG            0x00000004
 #define SPI_CFG_REG             0x00000008
 #define SPI_STATUS_REG          0x00000010
-#define SPI_IM_REG              0x00000014
+#define SPI_CTRL_REG            0x00000018
+#define SPI_IM_REG              0x00000020
 
 // CTRL register fields
 #define     SPI_GO_BIT          0x0
