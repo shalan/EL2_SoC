@@ -9,7 +9,7 @@ module AHBlite_GPIO (
 
     // input ports
     input   wire        HSEL,    // Select
-    input   wire [23:2] HADDR,   // Address
+    input   wire [5:3] HADDR,   // Address
     input   wire        HREADY, // 
     input   wire        HWRITE,  // Write control
     input   wire [1:0]  HTRANS,    // AHB transfer type
@@ -35,8 +35,16 @@ module AHBlite_GPIO (
 	// WGPIODIR register/fields
 	output [15:0] WGPIODIR
 );
+
+    parameter [2:0] DIN_ADR  = 3'h0;
+    parameter [2:0] DOUT_ADR = 3'h1;
+    parameter [2:0] PU_ADR   = 3'h2;
+    parameter [2:0] PD_ADR   = 3'h3;
+    parameter [2:0] DIR_ADR  = 3'h4;
+    parameter [2:0] IM_ADR   = 3'h5;
+
     reg         IOSEL;
-    reg [23:0]  IOADDR;
+    reg [5:3]   IOADDR;
     reg         IOWRITE;    // I/O transfer direction
     reg [2:0]   IOSIZE;     // I/O transfer size
     reg         IOTRANS;
@@ -52,9 +60,9 @@ module AHBlite_GPIO (
     // registered address, update only if selected to reduce toggling
     always @(posedge HCLK or negedge HRESETn) begin
         if (~HRESETn)
-            IOADDR <= 24'd0;
+            IOADDR <= 3'd0;
         else
-            IOADDR <= {HADDR[23:2], 2'b0};
+            IOADDR <= HADDR[5:3];
     end
 
     // Data phase write control
@@ -97,7 +105,7 @@ module AHBlite_GPIO (
     wire[15:0] WGPIODIN;
 
 	// Register: WGPIODOUT
-    wire WGPIODOUT_select = wr_enable & (IOADDR[23:2] == 22'h1);
+    wire WGPIODOUT_select = wr_enable & (IOADDR[5:3] == 22'h1);
     
     always @(posedge HCLK or negedge HRESETn)
     begin
@@ -108,7 +116,7 @@ module AHBlite_GPIO (
     end
     
 	// Register: WGPIOPU
-    wire WGPIOPU_select = wr_enable & (IOADDR[23:2] == 22'h2);
+    wire WGPIOPU_select = wr_enable & (IOADDR[5:3] == PU_ADR);
     
     always @(posedge HCLK or negedge HRESETn)
     begin
@@ -119,7 +127,7 @@ module AHBlite_GPIO (
     end
     
 	// Register: WGPIOPD
-    wire WGPIOPD_select = wr_enable & (IOADDR[23:2] == 22'h3);
+    wire WGPIOPD_select = wr_enable & (IOADDR[5:3] == PD_ADR);
     
     always @(posedge HCLK or negedge HRESETn)
     begin
@@ -130,7 +138,7 @@ module AHBlite_GPIO (
     end
     
 	// Register: WGPIODIR
-    wire WGPIODIR_select = wr_enable & (IOADDR[23:2] == 22'h4);
+    wire WGPIODIR_select = wr_enable & (IOADDR[5:3] == DIR_ADR);
     
     always @(posedge HCLK or negedge HRESETn)
     begin
@@ -141,7 +149,7 @@ module AHBlite_GPIO (
     end
     
     // Register: IM
-    wire WGPIOIM_select = wr_enable & (IOADDR[23:2] == 22'h5);
+    wire WGPIOIM_select = wr_enable & (IOADDR[5:3] == IM_ADR);
     
     always @(posedge HCLK or negedge HRESETn)
     begin
@@ -154,12 +162,12 @@ module AHBlite_GPIO (
     assign IRQ = (~WGPIODIR) & WGPIOIM;
 
     assign HRDATA = 
-      	(IOADDR[23:2] == 22'h0) ? {16'd0,WGPIODIN} : 
-      	(IOADDR[23:2] == 22'h1) ? {16'd0,WGPIODOUT} : 
-      	(IOADDR[23:2] == 22'h2) ? {16'd0,WGPIOPU} : 
-      	(IOADDR[23:2] == 22'h3) ? {16'd0,WGPIOPD} : 
-      	(IOADDR[23:2] == 22'h4) ? {16'd0,WGPIODIR} :
-        (IOADDR[23:2] == 22'h5) ? {16'd0,WGPIOIM} : 
+      	(IOADDR[5:3] == DIN_ADR)  ? {16'd0,WGPIODIN} : 
+      	(IOADDR[5:3] == DOUT_ADR) ? {16'd0,WGPIODOUT} : 
+      	(IOADDR[5:3] == PU_ADR)   ? {16'd0,WGPIOPU} : 
+      	(IOADDR[5:3] == PD_ADR)   ? {16'd0,WGPIOPD} : 
+      	(IOADDR[5:3] == DIR_ADR)  ? {16'd0,WGPIODIR} :
+        (IOADDR[5:3] == IM_ADR)   ? {16'd0,WGPIOIM} : 
 	32'hDEADBEEF;
 	assign HREADYOUT = 1'b1;     // Always ready
 

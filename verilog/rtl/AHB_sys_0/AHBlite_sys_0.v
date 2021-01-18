@@ -190,7 +190,7 @@ module AHBlite_sys_0(
 		.HCLK(HCLK),
 		.HRESETn(HRESETn),
 		.HSEL(HSEL_S2),
-		.HADDR(HADDR[23:2]),
+		.HADDR(HADDR[5:3]),
 		.HWRITE(HWRITE),
 		.HTRANS(HTRANS),
 		.HSIZE(HSIZE),

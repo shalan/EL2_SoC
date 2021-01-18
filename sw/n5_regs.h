@@ -22,11 +22,11 @@
 
 /* GPIO */
 #define GPIO_DIN_REG            0x00000000
-#define GPIO_DOUT_REG           0x00000004
-#define GPIO_PU_REG             0x00000008
-#define GPIO_PD_REG             0x0000000C
-#define GPIO_DIR_REG            0x00000010
-#define GPIO_IM_REG             0x00000014
+#define GPIO_DOUT_REG           0x00000008
+#define GPIO_PU_REG             0x00000010
+#define GPIO_PD_REG             0x00000018
+#define GPIO_DIR_REG            0x00000020
+#define GPIO_IM_REG             0x00000028
 
 unsigned int volatile *const GPIO_DIN = (unsigned int *)(AHB_GPIO_BASE_ADDR + GPIO_DIN_REG);
 unsigned int volatile *const GPIO_DOUT = (unsigned int *)(AHB_GPIO_BASE_ADDR + GPIO_DOUT_REG);
