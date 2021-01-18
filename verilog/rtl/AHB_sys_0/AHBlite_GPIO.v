@@ -105,7 +105,7 @@ module AHBlite_GPIO (
     wire[15:0] WGPIODIN;
 
 	// Register: WGPIODOUT
-    wire WGPIODOUT_select = wr_enable & (IOADDR[5:3] == 22'h1);
+    wire WGPIODOUT_select = wr_enable & (IOADDR[5:3] == DOUT_ADR);
     
     always @(posedge HCLK or negedge HRESETn)
     begin
