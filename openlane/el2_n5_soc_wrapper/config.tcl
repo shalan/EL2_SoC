@@ -2,7 +2,7 @@ set script_dir [file dirname [file normalize [info script]]]
 
 set ::env(DESIGN_NAME) el2_n5_soc_wrapper
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) "0 0 1100 1300"
+set ::env(DIE_AREA) "0 0 1200 1400"
 #set ::env(DIE_AREA) "0 0 1200 1400"
 
 set ::env(GLB_RT_OBS) "met5 $::env(DIE_AREA)"

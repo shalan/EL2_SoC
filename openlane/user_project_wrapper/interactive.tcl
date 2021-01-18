@@ -30,13 +30,13 @@ add_macro_placement core.RAM.HBANK  160 120 N
 add_macro_placement core.RAM.LBANK  1559 120 N
 
 # QSPI Cache Macro
-add_macro_placement core.ahb_sys_0_uut.S0.CACHE 1040 2000 N
+add_macro_placement core.ahb_sys_0_uut.S0.CACHE 950 2000 N
 
 # The APB subsystem including the peripherals
 add_macro_placement core.ahb_sys_0_uut.apb_sys_inst_0  710 2700 N
 
 # The CPU
-add_macro_placement core.EL2 1630 2000 N
+add_macro_placement core.EL2 1490 2000 N
  
 manual_macro_placement f
 
