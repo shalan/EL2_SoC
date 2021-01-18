@@ -15,7 +15,7 @@ module APB_WDT32 (
 
 	// input ports
 	input  wire        PSEL,    // Select
-	input  wire [19:2] PADDR,   // Address
+	input  wire [5:3]  PADDR,   // Address
 	input  wire        PENABLE, // Transfer control
 	input  wire        PWRITE,  // Write control
 	input  wire [31:0] PWDATA,  // Write data
