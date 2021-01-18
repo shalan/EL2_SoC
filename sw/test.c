@@ -4,6 +4,7 @@
 
 unsigned int A[100];
 
+
 void IRQ() {
     gpio_write(0x0099);        
 }
@@ -58,23 +59,13 @@ int main(){
     uart_puts (0, "GPIO Test: ", 11);
     gpio_write(0x0055);
 
-    DELAY(100);
+    DELAY(50);
     int gpio_data = gpio_read();
     if((gpio_data >> 8) == 0x55)
         uart_puts(0,"Passed!\n", 8);
     else
         uart_puts(0,"Failed!\n", 8);
     
-    // External SPM Accelerator
-    // uart_puts (0, "SPM Test: ", 9);
-    /*
-    int factorial = fact(5);
-    DELAY(100);
-    if(factorial==120)
-        uart_puts(0,"Passed!\n", 8);
-    else 
-        uart_puts(0,"Failed!\n", 8);
-*/
     // SPI
     uart_puts (0, "SPI Test: ", 9);
     M23LC_write_byte(0, 0, 0xA5);
@@ -103,44 +94,9 @@ int main(){
     pwm_disable(0); 
 
     // Some Delay
-    DELAY(30);
+    DELAY(50);
    
     // Done!
     uart_puts(0, "Done!\n\n", 7);
     return 0;
 }
-
-/*
-
-    (unsigned int *)(0x49000000) = -20;
-    (unsigned int *)(0x49000004) = 50;
-    
-    int x = 10;
-    int y = 50;
-
-    int z = x * y;
-
-    x = fact(5);
-
-    gpio_write(x);
-
-    uart_init (0, 0);
-    uart_puts (0, "Hello World!\n", 13);
-
-    gpio_write(z);
-
-    for(int i=0; i<z; i++);
-
-    gpio_write(0x00AA);
-
-    x = 5;
-    //asm volatile ("csrrw   zero, mie, %0" :: "r" (x));
-    asm volatile ("csrrwi   zero, mie, %0" :: "i" (5));
-
-    x = 0x100;
-    asm volatile ("csrrw   zero, 0x310, %0" :: "r" (x));
-
-    gpio_im(0x0100);
-
-    for(int i=0; i<50; i++);
-    */
