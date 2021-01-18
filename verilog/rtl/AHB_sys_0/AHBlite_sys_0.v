@@ -78,7 +78,8 @@ module AHBlite_sys_0(
 	wire HSEL_S0, HSEL_S1, HSEL_S2;
 
 	//Outputs
-    wire [`DW-1:0]   HRDATA_S0, HRDATA_S1, HRDATA_S2, HRDATA_SS0, HRDATA;
+    wire [`DW-1:0]   HRDATA_S0, HRDATA_S1;
+	wire [31:0] HRDATA_S2, HRDATA_SS0;
 	wire  HREADY_S0, HREADY_S1, HREADY_S2, HREADY_SS0, HREADY;
 	wire [1:0]   HRESP_S2;
 	
@@ -112,12 +113,12 @@ module AHBlite_sys_0(
 		// Slave # 2
 		.HSEL_S2(HSEL_S2),
 		.HREADY_S2(HREADY_S2),
-		.HRDATA_S2(HRDATA_S2),
+		.HRDATA_S2({32'd0, HRDATA_S2}),
 		
 		// Subsystem # 0
 		.HSEL_SS0(HSEL_SS0),
 		.HREADY_SS0(HREADY_SS0),
-		.HRDATA_SS0(HRDATA_SS0)
+		.HRDATA_SS0({32'd0, HRDATA_SS0})
 	);
 
 	//Digital module # 0
@@ -172,20 +173,6 @@ module AHBlite_sys_0(
 		.GPIOOEN(GPIOOEN_S2)
 	);
 	
-	//AHB Slave # 2
-	wire [31:0] HRDATA_S2_32;
-	wire [31:0] S2_HWDATA_32;
-
-	AHBlite_64bit_bridge gpio_bridge (
-		.HCLK(HCLK),
-		.HTRANS(HTRANS),
-		.HWDATA_64(HWDATA),
-		.HADDR(HADDR),
-		.HRDATA_32(HRDATA_S2_32),
-		.HRDATA_64(HRDATA_S2),
-		.HWDATA_32(S2_HWDATA_32)
-	);
-
 	AHBlite_GPIO S_2 (
 		.HCLK(HCLK),
 		.HRESETn(HRESETn),
@@ -194,10 +181,10 @@ module AHBlite_sys_0(
 		.HWRITE(HWRITE),
 		.HTRANS(HTRANS),
 		.HSIZE(HSIZE),
-		.HWDATA(S2_HWDATA_32),
+		.HWDATA(HWDATA[31:0]),
 		.HREADY(HREADY),
 		.HREADYOUT(HREADY_S2),
-		.HRDATA(HRDATA_S2_32),
+		.HRDATA(HRDATA_S2[31:0]),
 		.HRESP(HRESP_S2), 
 
 		.WGPIODIN(WGPIODIN_S2),
@@ -209,20 +196,6 @@ module AHBlite_sys_0(
 		.IRQ(IRQ[15:0])
 	);
 
-	// SubSystem Instantiation #0 
-	wire [31:0] HRDATA_SS0_32;
-	wire [31:0] SS0_HWDATA_32;
-
-	AHBlite_64bit_bridge apb_bridge (
-		.HCLK(HCLK),
-		.HTRANS(HTRANS),
-		.HWDATA_64(HWDATA),
-		.HADDR(HADDR),
-		.HRDATA_32(HRDATA_SS0_32),
-		.HRDATA_64(HRDATA_SS0),
-		.HWDATA_32(SS0_HWDATA_32)
-	);
-
     apb_sys_0 apb_sys_inst_0(
         // Global signals 
         .HCLK(HCLK),
@@ -232,12 +205,12 @@ module AHBlite_sys_0(
         .HADDR(HADDR),
         .HTRANS(HTRANS),
         .HWRITE(HWRITE),
-        .HWDATA(SS0_HWDATA_32),
+        .HWDATA(HWDATA[31:0]),
         .HSEL(HSEL_SS0),
         .HREADY(HREADY),
     
         // AHB Slave outputs 
-        .HRDATA(HRDATA_SS0_32),
+        .HRDATA(HRDATA_SS0),
         .HREADYOUT(HREADY_SS0),
 		.RsRx_S0(RsRx_SS0_S0),
 		.RsTx_S0(RsTx_SS0_S0),
