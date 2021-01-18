@@ -66,7 +66,7 @@ int main(){
         uart_puts(0,"Failed!\n", 8);
     
     // External SPM Accelerator
-    uart_puts (0, "SPM Test: ", 9);
+    // uart_puts (0, "SPM Test: ", 9);
     /*
     int factorial = fact(5);
     DELAY(100);
@@ -81,6 +81,17 @@ int main(){
     unsigned int spi_data = M23LC_read_byte(0, 0);
     DELAY(10);
     if(spi_data==0xA5)
+        uart_puts(0,"Passed!\n", 8);
+    else 
+        uart_puts(0,"Failed!\n", 8);
+
+     // Timer
+    uart_puts (0, "TMR Test: ", 10);
+    tmr_init(0, 400, 10);
+    tmr_enable(0);
+    tmr_wait(0);
+    tmr_disable(0);
+    if(tmr_read(0) == 0)
         uart_puts(0,"Passed!\n", 8);
     else 
         uart_puts(0,"Failed!\n", 8);

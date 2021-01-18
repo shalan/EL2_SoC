@@ -52,6 +52,15 @@ module APB_TIMER32 (
 	output [0:0] TMREN
 
 );
+
+	parameter [2:0] TMR_ADDR = 3'h0;
+	parameter [2:0] PRE_ADDR = 3'h1;
+	parameter [2:0] TMRCMP_ADDR = 3'h2;
+	parameter [2:0] TMROV_ADDR = 3'h3;
+	parameter [2:0] TMROVCLR_ADDR = 3'h4;
+	parameter [2:0] TMREN_ADDR = 3'h5;
+	parameter [2:0] IRQEN_ADDR = 3'h6;
+
 	wire rd_enable;
 	wire wr_enable;
 	assign  rd_enable = PSEL & (~PWRITE); 
@@ -71,7 +80,7 @@ module APB_TIMER32 (
     wire[0:0] TMROV;
 
 	// Register: PRE
-	wire PRE_select = wr_enable & (PADDR[19:2] == 18'h1);
+	wire PRE_select = wr_enable & (PADDR[5:3] == PRE_ADDR);
 
     always @(posedge PCLK or negedge PRESETn)
     begin
@@ -82,7 +91,7 @@ module APB_TIMER32 (
     end
     
 	// Register: TMRCMP
-	wire TMRCMP_select = wr_enable & (PADDR[19:2] == 18'h2);
+	wire TMRCMP_select = wr_enable & (PADDR[5:3] == TMRCMP_ADDR);
 
     always @(posedge PCLK or negedge PRESETn)
     begin
@@ -93,7 +102,7 @@ module APB_TIMER32 (
     end
     
 	// Register: TMROVCLR
-	wire TMROVCLR_select = wr_enable & (PADDR[19:2] == 18'h4);
+	wire TMROVCLR_select = wr_enable & (PADDR[5:3] == TMROVCLR_ADDR);
 
     always @(posedge PCLK or negedge PRESETn)
     begin
@@ -104,7 +113,7 @@ module APB_TIMER32 (
     end
     
 	// Register: TMREN
-	wire TMREN_select = wr_enable & (PADDR[19:2] == 18'h5);
+	wire TMREN_select = wr_enable & (PADDR[5:3] == TMREN_ADDR);
 
     always @(posedge PCLK or negedge PRESETn)
     begin
@@ -117,7 +126,7 @@ module APB_TIMER32 (
 
 	// IRQ Enable Register @ offset 0x100
 	reg[0:0] IRQEN;
-	wire IRQEN_select = wr_enable & (PADDR[19:2] == 18'h40);
+	wire IRQEN_select = wr_enable & (PADDR[5:3] == IRQEN_ADDR);
 
     always @(posedge PCLK or negedge PRESETn)
     begin
@@ -130,13 +139,13 @@ module APB_TIMER32 (
 	assign IRQ = ( TMROV & IRQEN[0] ) ;
 
 	assign PRDATA = 
-		(PADDR[19:2] == 18'h0) ? TMR : 
-		(PADDR[19:2] == 18'h1) ? PRE : 
-		(PADDR[19:2] == 18'h2) ? TMRCMP : 
-		(PADDR[19:2] == 18'h3) ? {31'd0,TMROV} : 
-		(PADDR[19:2] == 18'h4) ? {31'd0,TMROVCLR} : 
-		(PADDR[19:2] == 18'h5) ? {31'd0,TMREN} : 
-		(PADDR[19:2] == 18'h40) ? {31'd0,IRQEN} : 
+		(PADDR[5:3] == TMR_ADDR) ? TMR : 
+		(PADDR[5:3] == PRE_ADDR) ? PRE : 
+		(PADDR[5:3] == TMRCMP_ADDR) ? TMRCMP : 
+		(PADDR[5:3] == TMROV_ADDR) ? {31'd0,TMROV} : 
+		(PADDR[5:3] == TMROVCLR_ADDR) ? {31'd0,TMROVCLR} : 
+		(PADDR[5:3] == TMREN_ADDR) ? {31'd0,TMREN} : 
+		(PADDR[5:3] == IRQEN_ADDR) ? {31'd0,IRQEN} : 
 		32'hDEADBEEF;
 
 endmodule

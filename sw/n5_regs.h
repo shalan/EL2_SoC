@@ -160,12 +160,12 @@ unsigned int volatile *const PWM1_CMP2 = (unsigned int *)(APB_PWM32_1_BASE_ADDR 
 
 /* TIMER32: TMR0, TM1, TMR2 and TMR3 */
 #define     TMR_REG             0x00000000
-#define     TMR_PRE_REG         0x00000004
-#define     TMR_CMP_REG         0x00000008
-#define     TMR_STATUS_REG      0x0000000c
-#define     TMR_OVCLR_REG       0x00000010
-#define     TMR_EN_REG          0x00000014
-#define     TMR_IM_REG          0x00000100
+#define     TMR_PRE_REG         0x00000008
+#define     TMR_CMP_REG         0x00000010
+#define     TMR_STATUS_REG      0x00000018
+#define     TMR_OVCLR_REG       0x00000020
+#define     TMR_EN_REG          0x00000028
+#define     TMR_IM_REG          0x00000030
 
 unsigned int volatile * const TMR0_EN = (unsigned int *) (APB_TIMER32_0_BASE_ADDR + TMR_EN_REG);
 unsigned int volatile * const TMR0 = (unsigned int *) (APB_TIMER32_0_BASE_ADDR + TMR_REG);
