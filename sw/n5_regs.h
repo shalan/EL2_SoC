@@ -37,12 +37,12 @@ unsigned int volatile *const GPIO_IM = (unsigned int *)(AHB_GPIO_BASE_ADDR + GPI
 
 /* UART Modules */
 #define UART_DATA_REG           0x00000000
-#define UART_STATUS_REG         0x00000004
-#define UART_CTRL_REG           0x00000004
-#define UART_PRESCALER_REG      0x00000008
-#define UART_IM_REG             0x0000000C
-#define UART_TXFIFOTR_REG       0x00000010
-#define UART_RXFIFOTR_REG       0x00000014
+#define UART_STATUS_REG         0x00000008
+#define UART_CTRL_REG           0x00000010
+#define UART_PRESCALER_REG      0x00000018
+#define UART_IM_REG             0x00000020
+#define UART_TXFIFOTR_REG       0x00000028
+#define UART_RXFIFOTR_REG       0x00000030
 
 unsigned int volatile *const UART0_DATA = (unsigned int *)(APB_UART_0_BASE_ADDR + UART_DATA_REG);
 unsigned int volatile *const UART0_STATUS = (unsigned int *)(APB_UART_0_BASE_ADDR + UART_STATUS_REG);
@@ -143,10 +143,10 @@ unsigned int volatile * const I2C1_STAT = (unsigned int *) (APB_I2C_1_BASE_ADDR 
 unsigned int volatile * const I2C1_IM = (unsigned int *) (APB_I2C_1_BASE_ADDR + I2C_IM_REG);
 
 /* PWM Modules: PWM0 & PWM1 */
-#define PWM_CMP1_REG            0x00000004
-#define PWM_CMP2_REG            0x00000008
-#define PWM_PRE_REG             0x00000010
-#define PWM_CTRL_REG            0x00000020
+#define PWM_CMP1_REG            0x00000008
+#define PWM_CMP2_REG            0x00000010
+#define PWM_CTRL_REG            0x00000018
+#define PWM_PRE_REG             0x00000020
 
 unsigned int volatile *const PWM0_CTRL = (unsigned int *)(APB_PWM32_0_BASE_ADDR + PWM_CTRL_REG);
 unsigned int volatile *const PWM0_PRE = (unsigned int *)(APB_PWM32_0_BASE_ADDR + PWM_PRE_REG);
@@ -160,12 +160,12 @@ unsigned int volatile *const PWM1_CMP2 = (unsigned int *)(APB_PWM32_1_BASE_ADDR 
 
 /* TIMER32: TMR0, TM1, TMR2 and TMR3 */
 #define     TMR_REG             0x00000000
-#define     TMR_PRE_REG         0x00000004
-#define     TMR_CMP_REG         0x00000008
-#define     TMR_STATUS_REG      0x0000000c
-#define     TMR_OVCLR_REG       0x00000010
-#define     TMR_EN_REG          0x00000014
-#define     TMR_IM_REG          0x00000100
+#define     TMR_PRE_REG         0x00000008
+#define     TMR_CMP_REG         0x00000010
+#define     TMR_STATUS_REG      0x00000018
+#define     TMR_OVCLR_REG       0x00000020
+#define     TMR_EN_REG          0x00000028
+#define     TMR_IM_REG          0x00000030
 
 unsigned int volatile * const TMR0_EN = (unsigned int *) (APB_TIMER32_0_BASE_ADDR + TMR_EN_REG);
 unsigned int volatile * const TMR0 = (unsigned int *) (APB_TIMER32_0_BASE_ADDR + TMR_REG);
