@@ -24,18 +24,6 @@
 `timescale 1ns/1ps
 `default_nettype none
 
-// `define VERIFY
-
-`define   DATA_ADDR       8'h00
-`define   STATUS_ADDR     8'h04
-`define   CTRL_ADDR       8'h04
-`define   PRESCALE_ADDR   8'h08
-`define   IMASK_ADDR      8'h0c
-`define   TXFIFOTR_ADDR   8'h10
-`define   RXFIFOTR_ADDR   8'h14
-
-
-
 module APB_UART(
     // APB Bus Interface
     // APB Inputs
@@ -58,6 +46,14 @@ module APB_UART(
     output wire       uart_irq  //Interrupt
 );
 
+
+   parameter [2:0] DATA_ADDR     = 3'h0;
+   parameter [2:0] STATUS_ADDR   = 3'h1;
+   parameter [2:0] CTRL_ADDR     = 3'h2;
+   parameter [2:0] PRESCALE_ADDR = 3'h3;
+   parameter [2:0] IMASK_ADDR    = 3'h4;
+   parameter [2:0] TXFIFOTR_ADDR = 3'h5;
+   parameter [2:0] RXFIFOTR_ADDR = 3'h6;
 
     // I/O Registers
     reg [1:0] STATUS;
@@ -106,11 +102,11 @@ module APB_UART(
         CTRL <= 1'b0;
       end
       else if(PSEL & PWRITE & PENABLE) begin
-          if(PADDR[7:0] == `PRESCALE_ADDR) PRESCALE <= PWDATA[15:0];
-          else if(PADDR[7:0] == `IMASK_ADDR) IMASK <= PWDATA[4:0]; 
-          else if(PADDR[7:0] == `CTRL_ADDR) CTRL <= PWDATA[0:0]; 
-          else if(PADDR[7:0] == `TXFIFOTR_ADDR) TXFIFOTR <= PWDATA[7:0];
-          else if(PADDR[7:0] == `RXFIFOTR_ADDR) RXFIFOTR <= PWDATA[7:0];
+          if(PADDR[5:3] == PRESCALE_ADDR) PRESCALE <= PWDATA[15:0];
+          else if(PADDR[5:3] == IMASK_ADDR) IMASK <= PWDATA[4:0]; 
+          else if(PADDR[5:3] == CTRL_ADDR) CTRL <= PWDATA[0:0]; 
+          else if(PADDR[5:3] == TXFIFOTR_ADDR) TXFIFOTR <= PWDATA[7:0];
+          else if(PADDR[5:3] == RXFIFOTR_ADDR) RXFIFOTR <= PWDATA[7:0];
           //$display("write to %d data %d, %d", PADDR[3:0], PWDATA, CTRL);
       end
 
@@ -120,7 +116,7 @@ module APB_UART(
     
     //UART  write select
     //assign uart_wr = last_HTRANS[1] & last_HWRITE & last_HSEL;
-    assign uart_wr = PSEL & PWRITE & PENABLE & (PADDR[7:0]==`DATA_ADDR);
+    assign uart_wr = PSEL & PWRITE & PENABLE & (PADDR[5:3]== DATA_ADDR);
     
     //Only write last 8 bits of Data
     //assign uart_wdata = HWDATA[7:0];
@@ -129,16 +125,16 @@ module APB_UART(
     //UART read select
     //assign uart_rd = last_HTRANS[1] & ~last_HWRITE & last_HSEL;
     //PENABLE & PWRITE & PREADY & PSEL & ~PADDR[2])
-    assign uart_rd = PSEL & ~PWRITE & PENABLE & (PADDR[7:0]==`DATA_ADDR);
+    assign uart_rd = PSEL & ~PWRITE & PENABLE & (PADDR[5:3]== DATA_ADDR);
     
     //Assign UART output to AHB RDATA
     //assign HRDATA = {24'h0000_00,uart_rdata};
-    assign PRDATA = (PADDR[7:0] == `DATA_ADDR )     ?   {24'h0000_00,uart_rdata}     :
-                    (PADDR[7:0] == `STATUS_ADDR )   ?   {26'h0,rx_more_threshold, tx_less_threshold ,rx_empty, rx_full ,tx_empty, tx_full}  :
-                    (PADDR[7:0] == `PRESCALE_ADDR ) ?   {16'h0, PRESCALE}            :
-                    (PADDR[7:0] == `IMASK_ADDR )    ?   {29'h0,IMASK}                : 
-                    (PADDR[7:0] == `TXFIFOTR_ADDR ) ?   {24'h0,TXFIFOTR}             : 
-                    (PADDR[7:0] == `RXFIFOTR_ADDR ) ?   {24'h0,RXFIFOTR}             :
+    assign PRDATA = (PADDR[5:3] ==  DATA_ADDR )     ?   {24'h0000_00,uart_rdata}     :
+                    (PADDR[5:3] ==  STATUS_ADDR )   ?   {26'h0,rx_more_threshold, tx_less_threshold ,rx_empty, rx_full ,tx_empty, tx_full}  :
+                    (PADDR[5:3] ==  PRESCALE_ADDR ) ?   {16'h0, PRESCALE}            :
+                    (PADDR[5:3] ==  IMASK_ADDR )    ?   {29'h0,IMASK}                : 
+                    (PADDR[5:3] ==  TXFIFOTR_ADDR ) ?   {24'h0,TXFIFOTR}             : 
+                    (PADDR[5:3] ==  RXFIFOTR_ADDR ) ?   {24'h0,RXFIFOTR}             :
                                                         32'hDEADDEAD;
     
     wire tx_less_threshold = (tx_level < TXFIFOTR);
@@ -627,11 +623,11 @@ reg PCLK;
 		PRESETn = 1;
 
     // Configure the prescales
-    APB_WR(1, `PRESCALE_ADDR);
-    APB_WR(1, `CTRL_ADDR);
-    APB_WR(0, `IMASK_ADDR);
-    APB_WR(6, `TXFIFOTR_ADDR );
-    APB_WR(9, `IMASK_ADDR);
+    APB_WR(1, MUV.PRESCALE_ADDR);
+    APB_WR(1, MUV.CTRL_ADDR);
+    APB_WR(0, MUV.IMASK_ADDR);
+    APB_WR(6, MUV.TXFIFOTR_ADDR );
+    APB_WR(9, MUV.IMASK_ADDR);
     
 
 		// write something
@@ -645,15 +641,15 @@ reg PCLK;
 		APB_WR(8'h7F, 0);
 
     // wait for the first character to be received
-    APB_RD(`STATUS_ADDR);
+    APB_RD(MUV.STATUS_ADDR);
     while (PRDATA!=2) begin
-      APB_RD(`STATUS_ADDR);
+      APB_RD(MUV.STATUS_ADDR);
     end  
 
     // change the baud rate
-    APB_WR(0, `CTRL_ADDR);
-    APB_WR(4, `PRESCALE_ADDR);
-    APB_WR(1, `CTRL_ADDR);
+    APB_WR(0, MUV.CTRL_ADDR);
+    APB_WR(4, MUV.PRESCALE_ADDR);
+    APB_WR(1, MUV.CTRL_ADDR);
     
 
 		
