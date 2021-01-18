@@ -25,37 +25,43 @@ init_floorplan
 
 place_io_ol
 
-# set ::env(FP_DEF_TEMPLATE) $script_dir/../../def/user_project_wrapper_empty.def
+# 3 x 4KB DFFRAM macros
+add_macro_placement core.RAM.HBANK  160 120 N
+add_macro_placement core.RAM.LBANK  1559 120 N
 
-apply_def_template
+# QSPI Cache Macro
+add_macro_placement core.ahb_sys_0_uut.S0.CACHE 1040 2000 N
 
-set margin_x 200
-set margin_y 700
+# The APB subsystem including the peripherals
+add_macro_placement core.ahb_sys_0_uut.apb_sys_inst_0  710 2700 N
 
-add_macro_placement core.RAM  $margin_x $margin_y N
-
+# The CPU
+add_macro_placement core.EL2 1630 2000 N
+ 
 manual_macro_placement f
 
 tap_decap_or
 
 set ::env(_VDD_NET_NAME) vccd1
 set ::env(_GND_NET_NAME) vssd1
-set ::env(_V_OFFSET) 14
+set ::env(_V_OFFSET) 15
 set ::env(_H_OFFSET) $::env(_V_OFFSET)
-set ::env(_V_PITCH) 180
-set ::env(_H_PITCH) 180
+set ::env(_V_PITCH) 120
+set ::env(_H_PITCH) 120
 set ::env(_V_PDN_OFFSET) 0
 set ::env(_H_PDN_OFFSET) 0
-set ::env(_SPACING) 1.6
+set ::env(_SPACING) 1.7
 set ::env(_WIDTH) 3
 
 set power_domains [list {vccd1 vssd1} {vccd2 vssd2} {vdda1 vssa1} {vdda2 vssa2}]
 
+set ::env(CONNECT_GRIDS) 1
 foreach domain $power_domains {
 	set ::env(_VDD_NET_NAME) [lindex $domain 0]
 	set ::env(_GND_NET_NAME) [lindex $domain 1]
 	gen_pdn
 
+	set ::env(CONNECT_GRIDS) 0
 	set ::env(_V_OFFSET) \
 	[expr $::env(_V_OFFSET) + 2*($::env(_WIDTH)+$::env(_SPACING))]
 	set ::env(_H_OFFSET) \
@@ -64,19 +70,16 @@ foreach domain $power_domains {
 	set ::env(_H_PDN_OFFSET) [expr $::env(_H_PDN_OFFSET)+6*$::env(_WIDTH)]
 }
 
-
 global_placement_or
 
 detailed_placement
 
 run_cts
 
-
-global_placement_or
-
-detailed_placement
-
 run_routing
+
+write_powered_verilog -power vccd1 -ground vssd1
+set_netlist $::env(lvs_result_file_tag).powered.v
 
 run_magic
 run_magic_spice_export
