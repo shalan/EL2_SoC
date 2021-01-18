@@ -42,6 +42,12 @@ module APB_PWM32 (
 	output [0:0] TMREN
 
 );
+
+	parameter [2:0] TMRCMP1_ADDR = 3'h1;
+	parameter [2:0] TMRCMP2_ADDR = 3'h2;
+	parameter [2:0] TMREN_ADDR   = 3'h3;
+	parameter [2:0] PRE_ADDR     = 3'h4;
+
 	wire rd_enable;
 	wire wr_enable;
 	assign  rd_enable = PSEL & (~PWRITE); 
@@ -59,7 +65,7 @@ module APB_PWM32 (
 
 
 	// Register: PRE
-	wire PRE_select = wr_enable & (PADDR[19:2] == 18'h4);
+	wire PRE_select = wr_enable & (PADDR[5:3] == PRE_ADDR);
 
     always @(posedge PCLK or negedge PRESETn)
     begin
@@ -70,7 +76,7 @@ module APB_PWM32 (
     end
     
 	// Register: TMRCMP1
-	wire TMRCMP1_select = wr_enable & (PADDR[19:2] == 18'h1);
+	wire TMRCMP1_select = wr_enable & (PADDR[5:3] == TMRCMP1_ADDR);
 
     always @(posedge PCLK or negedge PRESETn)
     begin
@@ -81,7 +87,7 @@ module APB_PWM32 (
     end
     
 	// Register: TMRCMP2
-	wire TMRCMP2_select = wr_enable & (PADDR[19:2] == 18'h2);
+	wire TMRCMP2_select = wr_enable & (PADDR[5:3] == TMRCMP2_ADDR);
 
     always @(posedge PCLK or negedge PRESETn)
     begin
@@ -92,7 +98,7 @@ module APB_PWM32 (
     end
     
 	// Register: TMREN
-	wire TMREN_select = wr_enable & (PADDR[19:2] == 18'h8);
+	wire TMREN_select = wr_enable & (PADDR[5:3] == TMREN_ADDR);
 
     always @(posedge PCLK or negedge PRESETn)
     begin
@@ -103,10 +109,10 @@ module APB_PWM32 (
     end
     
 	assign PRDATA = 
-		(PADDR[19:2] == 18'h4) ? PRE : 
-		(PADDR[19:2] == 18'h1) ? TMRCMP1 : 
-		(PADDR[19:2] == 18'h2) ? TMRCMP2 : 
-		(PADDR[19:2] == 18'h8) ? {31'd0,TMREN} : 
+		(PADDR[5:3] == TMRCMP1_ADDR) ? TMRCMP1 : 
+		(PADDR[5:3] == TMRCMP2_ADDR) ? TMRCMP2 : 
+		(PADDR[5:3] == TMREN_ADDR) ? {31'd0,TMREN} : 
+		(PADDR[5:3] == PRE_ADDR) ? PRE : 
 		32'hDEADBEEF;
 
 endmodule

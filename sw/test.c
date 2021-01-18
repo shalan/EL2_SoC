@@ -85,9 +85,9 @@ int main(){
     else 
         uart_puts(0,"Failed!\n", 8);
 
-     // Timer
+    // Timer
     uart_puts (0, "TMR Test: ", 10);
-    tmr_init(0, 400, 10);
+    tmr_init(0, 800, 10);
     tmr_enable(0);
     tmr_wait(0);
     tmr_disable(0);

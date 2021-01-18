@@ -143,10 +143,10 @@ unsigned int volatile * const I2C1_STAT = (unsigned int *) (APB_I2C_1_BASE_ADDR 
 unsigned int volatile * const I2C1_IM = (unsigned int *) (APB_I2C_1_BASE_ADDR + I2C_IM_REG);
 
 /* PWM Modules: PWM0 & PWM1 */
-#define PWM_CMP1_REG            0x00000004
-#define PWM_CMP2_REG            0x00000008
-#define PWM_PRE_REG             0x00000010
-#define PWM_CTRL_REG            0x00000020
+#define PWM_CMP1_REG            0x00000008
+#define PWM_CMP2_REG            0x00000010
+#define PWM_CTRL_REG            0x00000018
+#define PWM_PRE_REG             0x00000020
 
 unsigned int volatile *const PWM0_CTRL = (unsigned int *)(APB_PWM32_0_BASE_ADDR + PWM_CTRL_REG);
 unsigned int volatile *const PWM0_PRE = (unsigned int *)(APB_PWM32_0_BASE_ADDR + PWM_PRE_REG);
