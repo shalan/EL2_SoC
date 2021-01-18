@@ -53,13 +53,13 @@ module APB_TIMER32 (
 
 );
 
-	parameter [2:0] TMR_ADDR = 3'h0;
-	parameter [2:0] PRE_ADDR = 3'h1;
-	parameter [2:0] TMRCMP_ADDR = 3'h2;
-	parameter [2:0] TMROV_ADDR = 3'h3;
+	parameter [2:0] TMR_ADDR      = 3'h0;
+	parameter [2:0] PRE_ADDR      = 3'h1;
+	parameter [2:0] TMRCMP_ADDR   = 3'h2;
+	parameter [2:0] TMROV_ADDR    = 3'h3;
 	parameter [2:0] TMROVCLR_ADDR = 3'h4;
-	parameter [2:0] TMREN_ADDR = 3'h5;
-	parameter [2:0] IRQEN_ADDR = 3'h6;
+	parameter [2:0] TMREN_ADDR    = 3'h5;
+	parameter [2:0] IRQEN_ADDR    = 3'h6;
 
 	wire rd_enable;
 	wire wr_enable;

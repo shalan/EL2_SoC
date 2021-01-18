@@ -48,6 +48,14 @@ module APB_WDT32 (
 	output [0:0] WDEN
 
 );
+
+	parameter [2:0] WDTMR_ADDR   = 3'h0;
+	parameter [2:0] WDLOAD_ADDR  = 3'h1;
+	parameter [2:0] WDOV_ADDR    = 3'h2;
+	parameter [2:0] WDOVCLR_ADDR = 3'h3;
+	parameter [2:0] WDEN_ADDR    = 3'h4;
+	parameter [2:0] IRQEN_ADDR   = 3'h5;
+
 	wire rd_enable;
 	wire wr_enable;
 	assign  rd_enable = PSEL & (~PWRITE); 
@@ -65,7 +73,7 @@ module APB_WDT32 (
     wire[0:0] WDOV;
 
 	// Register: WDLOAD
-	wire WDLOAD_select = wr_enable & (PADDR[19:2] == 18'h1);
+	wire WDLOAD_select = wr_enable & (PADDR[5:3] == WDLOAD_ADDR);
 
     always @(posedge PCLK or negedge PRESETn)
     begin
@@ -76,7 +84,7 @@ module APB_WDT32 (
     end
     
 	// Register: WDOVCLR
-	wire WDOVCLR_select = wr_enable & (PADDR[19:2] == 18'h4);
+	wire WDOVCLR_select = wr_enable & (PADDR[5:3] == WDOVCLR_ADDR);
 
     always @(posedge PCLK or negedge PRESETn)
     begin
@@ -87,7 +95,7 @@ module APB_WDT32 (
     end
     
 	// Register: WDEN
-	wire WDEN_select = wr_enable & (PADDR[19:2] == 18'h5);
+	wire WDEN_select = wr_enable & (PADDR[5:3] == WDEN_ADDR);
 
     always @(posedge PCLK or negedge PRESETn)
     begin
@@ -100,7 +108,7 @@ module APB_WDT32 (
 
 	// IRQ Enable Register @ offset 0x100
 	reg[0:0] IRQEN;
-	wire IRQEN_select = wr_enable & (PADDR[19:2] == 18'h40);
+	wire IRQEN_select = wr_enable & (PADDR[5:3] == IRQEN_ADDR);
 
     always @(posedge PCLK or negedge PRESETn)
     begin
@@ -113,12 +121,12 @@ module APB_WDT32 (
 	assign IRQ = ( WDOV & IRQEN[0] ) ;
 
 	assign PRDATA = 
-		(PADDR[19:2] == 18'h0) ? WDTMR : 
-		(PADDR[19:2] == 18'h1) ? WDLOAD : 
-		(PADDR[19:2] == 18'h3) ? {31'd0,WDOV} : 
-		(PADDR[19:2] == 18'h4) ? {31'd0,WDOVCLR} : 
-		(PADDR[19:2] == 18'h5) ? {31'd0,WDEN} : 
-		(PADDR[19:2] == 18'h40) ? {31'd0,IRQEN} : 
+		(PADDR[5:3] == WDTMR_ADDR) ? WDTMR : 
+		(PADDR[5:3] == WDLOAD_ADDR) ? WDLOAD : 
+		(PADDR[5:3] == WDOV_ADDR) ? {31'd0,WDOV} : 
+		(PADDR[5:3] == WDOVCLR_ADDR) ? {31'd0,WDOVCLR} : 
+		(PADDR[5:3] == WDEN_ADDR) ? {31'd0,WDEN} : 
+		(PADDR[5:3] == IRQEN_ADDR) ? {31'd0,IRQEN} : 
 		32'hDEADBEEF;
 
 endmodule
