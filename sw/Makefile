@@ -1,6 +1,6 @@
 #GCC_PATH := /ef/apps/bin
-GCC_PATH := /usr/local/opt/riscv-gnu-toolchain/bin
-GCC_PREFIX := riscv64-unknown-elf
+GCC_PATH ?= /usr/local/opt/riscv-gnu-toolchain/bin
+GCC_PREFIX ?= riscv64-unknown-elf
 
 name := test
 
