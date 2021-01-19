@@ -4,7 +4,7 @@
 `define   SIM_TIME    500_000
 `define   SIM_LEVEL   5
 
-module N5_SoC_TB;
+module EL2_SoC_TB;
 
     reg HCLK, HRESETn;
 
@@ -67,6 +67,10 @@ module N5_SoC_TB;
 
     /* N5_SoC Core */
     soc_core MUV (
+    `ifdef USE_POWER_PINS
+        .VPWR(1'b1),
+        .VGND(1'b0),
+    `endif
         .HCLK(HCLK),
         .HRESETn(HRESETn),
 
@@ -167,7 +171,7 @@ module N5_SoC_TB;
     // Dump file
     initial begin
         $dumpfile("EL2_SoC_TB.vcd");
-        $dumpvars(`SIM_LEVEL, N5_SoC_TB);
+        $dumpvars(`SIM_LEVEL, EL2_SoC_TB);
         #`SIM_TIME;
         $finish;
     end
