@@ -6,7 +6,6 @@
 
 
 ../verilog/gl/DFFRAM_4K.v
-../verilog/gl/DMC_32x16HC.v
 ../verilog/gl/el2_n5_soc_wrapper.v
 
 ../verilog/rtl/AHB_sys_0/AHBlite_sys_0.v 
@@ -35,6 +34,7 @@
 ../verilog/rtl/IPs/APB_SPI.v
 ../verilog/rtl/IPs/APB_I2C.v
 +define+NO_HC_CACHE=1
+../verilog/rtl/IPs/DMC_32x16.v
 ../verilog/rtl/IPs/QSPI_XIP_CTRL.v
 ../verilog/rtl/IPs/AHBSRAM.v
 ../verilog/rtl/IPs/DFFRAMBB.v
