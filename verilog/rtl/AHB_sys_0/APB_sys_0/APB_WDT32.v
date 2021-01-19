@@ -125,7 +125,7 @@ module APB_WDT32 (
 		(PADDR[5:3] == WDLOAD_ADDR) ? WDLOAD : 
 		(PADDR[5:3] == WDOV_ADDR) ? {31'd0,WDOV} : 
 		(PADDR[5:3] == WDOVCLR_ADDR) ? {31'd0,WDOVCLR} : 
-		(PADDR[5:3] == WDEN_ADDR) ? {31'd0,WDEN} : 
+		(PADDR[5:3] == WDEN_ADDR)  ? {31'd0,WDEN} : 
 		(PADDR[5:3] == IRQEN_ADDR) ? {31'd0,IRQEN} : 
 		32'hDEADBEEF;
 

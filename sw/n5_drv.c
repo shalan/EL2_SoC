@@ -307,3 +307,54 @@ int tmr_read(unsigned int n){
         return *TMR1;
     return 0;
 }
+
+/* Watch dog Timers */
+int wdt_init(unsigned int n){
+    if(n>1) return -1;
+    if(n==0) {
+        *WDT0_OVCLR = 1;
+        *WDT0_OVCLR = 0;        
+    } else {
+        *WDT1_OVCLR = 1;
+        *WDT1_OVCLR = 0;          
+    }
+    return 0;
+}
+
+int wdt_enable(unsigned int n){
+    if(n>1) return -1;
+    if(n==0) 
+        *WDT0_EN = 0x1;
+    else
+        *WDT1_EN = 0x1;
+    return 0;
+}
+
+int wdt_load(unsigned int n, unsigned int val) {
+    if(n>1) return -1;
+    if(n==0) {
+        *WDT0_LOAD = val;
+    } else {
+        *WDT1_LOAD = val;
+    }
+    return 0;
+}
+
+int wdt_read(unsigned int n){
+    if(n>1) return -1;
+    if(n==0) {
+        return *WDT0_TMR;
+    } else {
+        return *WDT1_TMR;
+    }
+    return 0;
+}
+
+int wdt_disable(unsigned int n){
+    if(n>1) return -1;
+    if(n==0) 
+        *WDT0_EN = 0x0;
+    else
+        *WDT1_EN = 0x0;
+    return 0;
+}
