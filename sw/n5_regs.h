@@ -98,14 +98,14 @@ unsigned int volatile *const SPI1_CFG = (unsigned int *)(APB_SPI_1_BASE_ADDR + S
 unsigned int volatile *const SPI1_IM = (unsigned int *)(APB_SPI_1_BASE_ADDR + SPI_IM_REG);
 
 /* I2C Modules: I2C00 & I2C1 */
-#define     I2C_PRE_LO_REG      0x0
-#define     I2C_PRE_HI_REG      0x4
-#define     I2C_CTRL_REG        0x8
-#define     I2C_TX_REG          0xC
-#define     I2C_RX_REG          0x10
-#define     I2C_CMD_REG         0x14
-#define     I2C_STAT_REG        0x18
-#define     I2C_IM_REG          0x1C
+#define     I2C_PRE_LO_REG      0x00000000
+#define     I2C_PRE_HI_REG      0x00000008
+#define     I2C_CTRL_REG        0x00000010
+#define     I2C_TX_REG          0x00000018
+#define     I2C_RX_REG          0x00000020
+#define     I2C_CMD_REG         0x00000028
+#define     I2C_STAT_REG        0x00000030
+#define     I2C_IM_REG          0x00000038
 
 #define     I2C_CMD_STA         0x80
 #define     I2C_CMD_STO         0x40
