@@ -25,17 +25,19 @@ module APB_I2C(
     output wire PREADY,
     output wire [31:0] PRDATA,
 
-	output wire IRQ,
+	  output wire IRQ,
 
     // i2c Ports
     input 	wire scl_i,	    // SCL-line input
-	output 	wire scl_o,	    // SCL-line output (always 1'b0)
-	output 	wire scl_oen_o, // SCL-line output enable (active low)
-	input	wire sda_i,     // SDA-line input
-	output	wire sda_o,	    // SDA-line output (always 1'b0)
-	output	wire sda_oen_o // SDA-line output enable (active low)
+    output 	wire scl_o,	    // SCL-line output (always 1'b0)
+    output 	wire scl_oen_o, // SCL-line output enable (active low)
+    input	  wire sda_i,     // SDA-line input
+    output	wire sda_o,	    // SDA-line output (always 1'b0)
+    output	wire sda_oen_o // SDA-line output enable (active low)
     
 );
+
+  parameter [2:0] I2C_IM_ADDR = 3'h7;
 
   assign PREADY = 1'b1; //always ready
   
@@ -56,17 +58,17 @@ module APB_I2C(
     begin
       I2C_IM_REG <= 1'b0;
     end
-    else if(PENABLE & PWRITE & PREADY & PSEL & (PADDR[4:2] == 3'h7))
+    else if(PENABLE & PWRITE & PREADY & PSEL & (PADDR[5:3] == I2C_IM_ADDR))
       I2C_IM_REG <= PWDATA[0:0];
   end
 
 
   i2c_master i2c (
-    		.sys_clk(PCLK),
-    		.sys_rst(~PRESETn),
+      .sys_clk(PCLK),
+      .sys_rst(~PRESETn),
     		//
-    		.io_a(PADDR[7:2]),
-		    .io_di(PWDATA[7:0]),
+      .io_a(PADDR[5:3]),
+      .io_di(PWDATA[7:0]),
 			.io_do(io_do),
 			.io_re(io_re),
 			.io_we(io_we),
@@ -81,6 +83,6 @@ module APB_I2C(
 			.sda_oen_o(sda_oen_o)  // SDA-line output enable (active low)
 	);
   
-  assign PRDATA[31:0] = (PADDR[4:2] == 3'h7) ? I2C_IM_REG : io_do;//I2C_DATA_REG;
+  assign PRDATA[31:0] = (PADDR[5:3] == I2C_IM_ADDR) ? I2C_IM_REG : io_do;//I2C_DATA_REG;
   
 endmodule

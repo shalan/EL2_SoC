@@ -1,4 +1,4 @@
-`define DBG_RAM
+// `define DBG_RAM
 
 module RAM_1024x64 (
 `ifdef USE_POWER_PINS

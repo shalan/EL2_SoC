@@ -28,8 +28,7 @@ module el2_n5_soc_wrapper (
 
     // MISCELLANEOUS 
     input  wire         NMI,				// Non-maskable interrupt input
-    input  wire         EXT_IRQ,		        // Interrupt request line
-    input  wire [30:0]   IRQ, 
+    input  wire [30:0]  IRQ, 
     input  wire [23:0]	SYSTICKCLKDIV
 
 );
@@ -90,7 +89,7 @@ el2_swerv_wrapper el2 (
         .dbg_rst_l(HRESETn), 
         
         .rst_vec(31'b0), 
-        .nmi_int(1'b0), 
+        .nmi_int(NMI), 
         .nmi_vec(31'b0),
 /*
         jtag_id, trace_rv_i_insn_ip, trace_rv_i_address_ip, 

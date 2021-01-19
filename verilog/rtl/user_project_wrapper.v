@@ -63,6 +63,7 @@ module user_project_wrapper (
     /*--------------------------------------*/
     /* User project is instantiated  here   */
     /*--------------------------------------*/
+    
     assign io_oeb[18] = 1'b0; 
     assign io_oeb[19] = 1'b0; 
 
@@ -85,14 +86,20 @@ module user_project_wrapper (
     assign io_oeb[31] = 1'b0; 
 
     // check csb pin -- io[3]
+    wire fdoeb;
+    
+    assign io_oeb[17:14] = {4{~fdoeb}};
 
     soc_core core(
-
+    `ifdef USE_POWER_PINS
+        .VPWR(vccd1),
+        .VGND(vssd1),
+    `endif
         .HCLK(wb_clk_i), 
-	    .HRESETn(wb_rst_i),
+	    .HRESETn(la_data_in[26]),
 	    
-        .NMI(1'b0),
-	    .SYSTICKCLKDIV(la_data_in[7:0]),
+        .NMI(la_data_in[24]),
+	    .SYSTICKCLKDIV(la_data_in[23:0]),
 
         .GPIOIN_Sys0_S2(io_in[13:0]),
         .GPIOOUT_Sys0_S2(io_out[13:0]),
@@ -102,7 +109,7 @@ module user_project_wrapper (
 
 	    .fdi_Sys0_S0(io_in[17:14]),
 	    .fdo_Sys0_S0(io_out[17:14]),
-		.fdoe_Sys0_S0(~io_oeb[17:14]),
+		.fdoe_Sys0_S0(fdoeb),
         .fsclk_Sys0_S0(io_out[18]),
 	    .fcen_Sys0_S0(io_out[19]),
 		
@@ -140,6 +147,5 @@ module user_project_wrapper (
         .pwm_Sys0_SS0_S7(io_out[37])
     );
    
-
 endmodule	// user_project_wrapper
 `default_nettype wire

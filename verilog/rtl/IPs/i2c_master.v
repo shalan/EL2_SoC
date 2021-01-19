@@ -726,7 +726,7 @@ module i2c_master #(
     input wire sys_clk,
     input wire sys_rst,
     //
-    input wire [5:0] io_a,
+    input wire [5:3] io_a,
     input wire [7:0] io_di,
     output reg [7:0] io_do,
     input wire io_re,
@@ -743,18 +743,18 @@ module i2c_master #(
 );
 
     // register address	
-	localparam prer_low_addr 	= base_addr;
-	localparam prer_high_addr 	= base_addr + 6'd1;
-	localparam ctr_addr  		= base_addr + 6'd2;
-	localparam txr_addr  		= base_addr + 6'd3;
-	localparam rxr_addr  		= base_addr + 6'd4;
-	localparam cr_addr  			= base_addr + 6'd5;
-	localparam sr_addr  			= base_addr + 6'd6;
+	parameter [2:0] PRE_LO_ADDR = 3'h0;
+	parameter [2:0] PRE_HI_ADDR = 3'h1;
+	parameter [2:0] CTRL_ADDR   = 3'h2;
+	parameter [2:0] TXR_ADDR  	= 3'h3;
+	parameter [2:0] RXR_ADDR  	= 3'h4;
+	parameter [2:0] CR_ADDR  	= 3'h5;
+	parameter [2:0] SR_ADDR     = 3'h6;
 	
-	wire csr_selected = (io_a == prer_low_addr) | (io_a == prer_high_addr) |
-						(io_a == ctr_addr) | (io_a == rxr_addr) |
-						(io_a == sr_addr) | (io_a == txr_addr) |
-						(io_a == cr_addr);
+	wire csr_selected = (io_a == PRE_LO_ADDR) | (io_a == PRE_HI_ADDR) |
+						(io_a == CTRL_ADDR)   | (io_a == RXR_ADDR)    |
+						(io_a == SR_ADDR)     | (io_a == TXR_ADDR)    |
+						(io_a == CR_ADDR);
 	
 	//
 	// variable declarations
@@ -794,13 +794,13 @@ module i2c_master #(
 	  io_do = 8'd00;
 	  if(io_re & csr_selected)
 		case (io_a)
-			prer_low_addr: 		io_do = #1 prer[ 7:0];
-			prer_high_addr: 	io_do = #1 prer[15:8];
-			ctr_addr: 			io_do = #1 ctr;
-			rxr_addr: 			io_do = #1 rxr;
-			sr_addr: 			io_do = #1 sr;
-			txr_addr: 			io_do = #1 txr;
-			cr_addr: 			io_do = #1 cr;
+			PRE_LO_ADDR: 		io_do = #1 prer[ 7:0];
+			PRE_HI_ADDR: 	    io_do = #1 prer[15:8];
+			CTRL_ADDR: 			io_do = #1 ctr;
+			RXR_ADDR: 			io_do = #1 rxr;
+			SR_ADDR: 			io_do = #1 sr;
+			TXR_ADDR: 			io_do = #1 txr;
+			CR_ADDR: 			io_do = #1 cr;
 			default: 			io_do = 8'hff;   			 // reserved
 		endcase
 	end
@@ -833,10 +833,10 @@ module i2c_master #(
 	  else
 	    if (io_we & csr_selected)
 	      case (io_a)
-	         prer_low_addr : 	prer [ 7:0] <= #1 io_di;
-	         prer_high_addr : 	prer [15:8] <= #1 io_di;
-	         ctr_addr : 				ctr <= #1 io_di;
-	         txr_addr : 				txr <= #1 io_di;
+	         PRE_LO_ADDR : 	prer [ 7:0] <= #1 io_di;
+	         PRE_HI_ADDR : 	prer [15:8] <= #1 io_di;
+	         CTRL_ADDR   : 		    ctr <= #1 io_di;
+	         TXR_ADDR    : 			txr <= #1 io_di;
 	         default: ;
 	      endcase
 
@@ -844,7 +844,7 @@ module i2c_master #(
 	always @(posedge sys_clk or posedge sys_rst)
 	  if (sys_rst)
 	    cr <= #1 8'h0;
-	  else if (io_we & (io_a == cr_addr))
+	  else if (io_we & (io_a == CR_ADDR))
 	    begin
 	        if (core_en)
 	          cr <= #1 io_di;

@@ -98,14 +98,14 @@ unsigned int volatile *const SPI1_CFG = (unsigned int *)(APB_SPI_1_BASE_ADDR + S
 unsigned int volatile *const SPI1_IM = (unsigned int *)(APB_SPI_1_BASE_ADDR + SPI_IM_REG);
 
 /* I2C Modules: I2C00 & I2C1 */
-#define     I2C_PRE_LO_REG      0x0
-#define     I2C_PRE_HI_REG      0x4
-#define     I2C_CTRL_REG        0x8
-#define     I2C_TX_REG          0xC
-#define     I2C_RX_REG          0x10
-#define     I2C_CMD_REG         0x14
-#define     I2C_STAT_REG        0x18
-#define     I2C_IM_REG          0x1C
+#define     I2C_PRE_LO_REG      0x00000000
+#define     I2C_PRE_HI_REG      0x00000008
+#define     I2C_CTRL_REG        0x00000010
+#define     I2C_TX_REG          0x00000018
+#define     I2C_RX_REG          0x00000020
+#define     I2C_CMD_REG         0x00000028
+#define     I2C_STAT_REG        0x00000030
+#define     I2C_IM_REG          0x00000038
 
 #define     I2C_CMD_STA         0x80
 #define     I2C_CMD_STO         0x40
@@ -198,3 +198,25 @@ unsigned int volatile * const TMR3_PRE = (unsigned int *) (APB_TIMER32_3_BASE_AD
 unsigned int volatile * const TMR3_CMP = (unsigned int *) (APB_TIMER32_3_BASE_ADDR + TMR_CMP_REG);
 unsigned int volatile * const TMR3_OVCLR = (unsigned int *) (APB_TIMER32_3_BASE_ADDR + TMR_OVCLR_REG);
 unsigned int volatile * const TMR3_IM = (unsigned int *) (APB_TIMER32_3_BASE_ADDR + TMR_IM_REG);
+
+/* WDT32: WDT0, WDT1 */
+#define     WDT_TMR_REG      0x00000000
+#define     WDT_LOAD_REG     0x00000008
+#define     WDT_OV_REG       0x00000010
+#define     WDT_OVCLR_REG    0x00000018
+#define     WDT_EN_REG       0x00000020
+#define     WDT_IRQEN_REG    0x00000028
+
+unsigned int volatile *const WDT0_TMR   = (unsigned int *)(APB_WDT32_0_BASE_ADDR + WDT_TMR_REG);
+unsigned int volatile *const WDT0_LOAD  = (unsigned int *)(APB_WDT32_0_BASE_ADDR + WDT_LOAD_REG);
+unsigned int volatile *const WDT0_OV    = (unsigned int *)(APB_WDT32_0_BASE_ADDR + WDT_OV_REG);
+unsigned int volatile *const WDT0_OVCLR = (unsigned int *)(APB_WDT32_0_BASE_ADDR + WDT_OVCLR_REG);
+unsigned int volatile *const WDT0_EN    = (unsigned int *)(APB_WDT32_0_BASE_ADDR + WDT_EN_REG);
+unsigned int volatile *const WDT0_IRQEN = (unsigned int *)(APB_WDT32_0_BASE_ADDR + WDT_IRQEN_REG);
+
+unsigned int volatile *const WDT1_TMR   = (unsigned int *)(APB_WDT32_1_BASE_ADDR + WDT_TMR_REG);
+unsigned int volatile *const WDT1_LOAD  = (unsigned int *)(APB_WDT32_1_BASE_ADDR + WDT_LOAD_REG);
+unsigned int volatile *const WDT1_OV    = (unsigned int *)(APB_WDT32_1_BASE_ADDR + WDT_OV_REG);
+unsigned int volatile *const WDT1_OVCLR = (unsigned int *)(APB_WDT32_1_BASE_ADDR + WDT_OVCLR_REG);
+unsigned int volatile *const WDT1_EN    = (unsigned int *)(APB_WDT32_1_BASE_ADDR + WDT_EN_REG);
+unsigned int volatile *const WDT1_IRQEN = (unsigned int *)(APB_WDT32_1_BASE_ADDR + WDT_IRQEN_REG);
