@@ -74,7 +74,7 @@ module EL2_SoC_TB;
         .HCLK(HCLK),
         .HRESETn(HRESETn),
 
-        .SYSTICKCLKDIV(8'd100),
+        .SYSTICKCLKDIV(24'd100),
         .NMI(1'b0),
        
         .fdi_Sys0_S0(fdi),

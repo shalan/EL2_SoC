@@ -19,24 +19,24 @@ module soc_core (
 	input HRESETn,
 	
 	input wire 			NMI,
-	input wire [7:0]	SYSTICKCLKDIV,
+	input wire [23:0]	SYSTICKCLKDIV,
 
-	input wire  [3: 0] 	fdi_Sys0_S0,
+	input  wire [3: 0] 	fdi_Sys0_S0,
 	output wire [3: 0] 	fdo_Sys0_S0,
 	output wire [0: 0] 	fdoe_Sys0_S0,
 	output wire [0: 0] 	fsclk_Sys0_S0,
 	output wire [0: 0] 	fcen_Sys0_S0,
 
-	input wire  [15: 0] GPIOIN_Sys0_S2,
+	input  wire [15: 0] GPIOIN_Sys0_S2,
 	output wire [15: 0] GPIOOUT_Sys0_S2,
 	output wire [15: 0] GPIOPU_Sys0_S2,
 	output wire [15: 0] GPIOPD_Sys0_S2,
 	output wire [15: 0] GPIOOEN_Sys0_S2,
 
-	input wire [0: 0] RsRx_Sys0_SS0_S0,
+	input  wire [0: 0] RsRx_Sys0_SS0_S0,
 	output wire [0: 0] RsTx_Sys0_SS0_S0,
 
-	input wire [0: 0] RsRx_Sys0_SS0_S1,
+	input  wire [0: 0] RsRx_Sys0_SS0_S1,
 	output wire [0: 0] RsTx_Sys0_SS0_S1,
 
 	input wire [0: 0] MSI_Sys0_SS0_S2,

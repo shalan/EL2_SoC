@@ -30,6 +30,7 @@
 ../verilog/rtl/IPs/APB_I2C.v
 ../dv/DFFRAM_beh.v
 +define+NO_HC_CACHE=1
+../verilog/rtl/IPs/DMC_32x16.v
 ../verilog/rtl/IPs/QSPI_XIP_CTRL.v
 ../verilog/rtl/IPs/AHBSRAM.v
 #../verilog/rtl/IPs/DFFRAM.v
