@@ -11,6 +11,10 @@
 `endif
 
 module soc_core (
+`ifdef USE_POWER_PINS
+	input VPWR,
+	input VGND,
+`endif
 	input HCLK, 
 	input HRESETn,
 	
@@ -98,7 +102,10 @@ module soc_core (
 
 	//AHBlite_SYS0 instantiation
 	AHBlite_sys_0 ahb_sys_0_uut(
-
+	`ifdef USE_POWER_PINS
+		.VPWR(VPWR),
+		.VGND(VGND),
+	`endif
 		.HCLK(HCLK),
 		.HRESETn(HRESETn),
 	
@@ -179,6 +186,10 @@ module soc_core (
 
 
 	RAM_1024x64 RAM (
+	`ifdef USE_POWER_PINS
+		.VPWR(VPWR),
+		.VGND(VGND),
+	`endif
 		.CLK(HCLK),
 		.WE(SRAMWEN_Sys0_S1),
 		.EN(SRAMCS0_Sys0_S1),
@@ -188,6 +199,10 @@ module soc_core (
 	);
 
 	el2_n5_soc_wrapper EL2 (
+	`ifdef USE_POWER_PINS
+		.VPWR(VPWR),
+		.VGND(VGND),
+	`endif
 		.HCLK(HCLK),
 		.HRESETn(HRESETn),
 

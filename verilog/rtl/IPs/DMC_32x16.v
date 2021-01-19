@@ -4,6 +4,10 @@
 `ifdef NO_HC_CACHE
 
 module DMC_32x16 (
+`ifdef USE_POWER_PINS
+    input VPWR,
+    input VGND,
+`endif
     input wire          clk,
     input wire          rst_n,
     // 
