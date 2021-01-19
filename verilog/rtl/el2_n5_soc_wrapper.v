@@ -148,7 +148,7 @@ el2_swerv_wrapper el2 (
         .sb_hresp(1'b0),
         .sb_hready(1'b1),
         
-        .core_id('b0),
+        .core_id(28'h000_0000),
 
         .ifu_bus_clk_en(1'b1),
         .lsu_bus_clk_en(1'b1),
