@@ -55,11 +55,16 @@ int main(){
     
     // GPIO
     uart_puts (0, "GPIO Test: ", 11);
-    gpio_write(0x0055);
 
+    int gpio_val = 0x55;
+    if (SIM_SOC == 0){
+        gpio_val = 0x15; // Wrapper has a lower number of GPIOs
+    }
+    
+    gpio_write(gpio_val);
     DELAY(50);
     int gpio_data = gpio_read();
-    if((gpio_data >> 8) == 0x55)
+    if((gpio_data >> 8) == gpio_val)
         uart_puts(0,"Passed!\n", 8);
     else
         uart_puts(0,"Failed!\n", 8);
