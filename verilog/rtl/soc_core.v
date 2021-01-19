@@ -218,10 +218,7 @@ module soc_core (
 		.NMI(NMI),
 
 		//Interrupts
-		.IRQ(M0_IRQ[30:0]),
-
-		// SYSTICK Divisor
-		.SYSTICKCLKDIV(SYSTICKCLKDIV)
+		.IRQ(M0_IRQ[30:0])
 	);
 
   endmodule

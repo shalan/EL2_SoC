@@ -28,9 +28,7 @@ module el2_n5_soc_wrapper (
 
     // MISCELLANEOUS 
     input  wire         NMI,				// Non-maskable interrupt input
-    input  wire [30:0]  IRQ, 
-    input  wire [23:0]	SYSTICKCLKDIV
-
+    input  wire [30:0]  IRQ
 );
 
         wire [31:0] ifu_haddr;
