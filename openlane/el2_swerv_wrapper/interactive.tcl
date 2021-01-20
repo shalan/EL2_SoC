@@ -16,7 +16,7 @@
 package require openlane
 set script_dir [file dirname [file normalize [info script]]]
 
-prep -design $script_dir -tag user_project_wrapper -overwrite
+prep -design $script_dir -tag el2_swerv_wrapper -overwrite
 set save_path $script_dir/../..
 
 verilog_elaborate

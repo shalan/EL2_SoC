@@ -53,13 +53,39 @@ int main(){
     // Start the test
     uart_puts (0, "Hello World!\n", 13);
     
+    // I2C testing
+    uart_puts (0, "I2C Test: ", 10);
+    i2c_init(0, 16000);
+    i2c_start(0, 0xA0);    // slave address = 1010_000, R/W_b=0 (write)
+    i2c_sendByte(0x0);
+    i2c_sendByte(0x0);
+    i2c_sendByte(0x55);
+    i2c_stop();
+    DELAY(20);
+    i2c_start(0, 0xA0);    // slave address = 1010_000, R/W_b=0 (write)
+    i2c_sendByte(0x0);
+    i2c_sendByte(0x0);
+    i2c_start(0, 0xA1);    // slave address = 1010_000, R/W_b=1 (read)
+    int i2c_data = i2c_readByte();
+    gpio_write(i2c_data);
+    if(i2c_data == 0x55)
+        uart_puts(0,"Passed!\n", 8);
+    else
+        uart_puts(0,"Failed!\n", 8);
+    i2c_stop();
+
     // GPIO
     uart_puts (0, "GPIO Test: ", 11);
-    gpio_write(0x0055);
 
+    int gpio_val = 0x55;
+    if (SIM_SOC == 0){
+        gpio_val = 0x15; // Wrapper has a lower number of GPIOs
+    }
+    
+    gpio_write(gpio_val);
     DELAY(50);
     int gpio_data = gpio_read();
-    if((gpio_data >> 8) == 0x55)
+    if((gpio_data >> 8) == gpio_val)
         uart_puts(0,"Passed!\n", 8);
     else
         uart_puts(0,"Failed!\n", 8);

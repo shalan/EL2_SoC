@@ -96,9 +96,9 @@ module user_project_wrapper (
         .VGND(vssd1),
     `endif
         .HCLK(wb_clk_i), 
-	    .HRESETn(la_data_in[26]),	    
-        .NMI(la_data_in[24]),
-        
+	    .HRESETn(la_data_in[0]),	    
+        .NMI(la_data_in[1]),
+
         .GPIOIN_Sys0_S2(io_in[13:0]),
         .GPIOOUT_Sys0_S2(io_out[13:0]),
 	    .GPIOPU_Sys0_S2(),
