@@ -40,20 +40,12 @@ run_magic
 
 run_magic_spice_export
 
-if {  [info exists flags_map(-save) ] } {
-    if { ! [info exists arg_values(-save_path)] } {
-        set arg_values(-save_path) ""
-    }
-    save_views 	-lef_path $::env(magic_result_file_tag).lef \
-        -def_path $::env(tritonRoute_result_file_tag).def \
-        -gds_path $::env(magic_result_file_tag).gds \
-        -mag_path $::env(magic_result_file_tag).mag \
-        -maglef_path $::env(magic_result_file_tag).lef.mag \
-        -spice_path $::env(magic_result_file_tag).spice \
-        -verilog_path $::env(CURRENT_NETLIST) \
-        -save_path $arg_values(-save_path) \
-        -tag $::env(RUN_TAG)
-}
+save_views       -lef_path $::env(magic_result_file_tag).lef \
+                 -def_path $::env(tritonRoute_result_file_tag).def \
+                 -gds_path $::env(magic_result_file_tag).gds \
+                 -mag_path $::env(magic_result_file_tag).mag \
+                 -save_path $save_path \
+                 -tag $::env(RUN_TAG)
 
 # Physical verification
 
