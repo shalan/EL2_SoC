@@ -28,9 +28,7 @@ module el2_n5_soc_wrapper (
 
     // MISCELLANEOUS 
     input  wire         NMI,				// Non-maskable interrupt input
-    input  wire [30:0]  IRQ, 
-    input  wire [23:0]	SYSTICKCLKDIV
-
+    input  wire [30:0]  IRQ
 );
 
         wire [31:0] ifu_haddr;
@@ -150,7 +148,7 @@ el2_swerv_wrapper el2 (
         .sb_hresp(1'b0),
         .sb_hready(1'b1),
         
-        .core_id('b0),
+        .core_id(28'h000_0000),
 
         .ifu_bus_clk_en(1'b1),
         .lsu_bus_clk_en(1'b1),

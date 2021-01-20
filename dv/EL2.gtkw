@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
-[*] Sun Jan 17 16:05:32 2021
+[*] Sat Jan 16 10:19:02 2021
 [*]
-[dumpfile] "/Users/mshalan/work/GH-Repos/EL2_SoC/dv/EL2_SoC_TB.vcd"
-[dumpfile_mtime] "Sun Jan 17 15:38:43 2021"
-[dumpfile_size] 83521259
-[savefile] "/Users/mshalan/work/GH-Repos/EL2_SoC/dv/EL2_SoC.gtkw"
-[timestart] 229879000
-[size] 2341 1294
+[dumpfile] "/Users/mshalan/work/GH-Repos/EL2_SoC/dv/N5_SoC_TB.vcd"
+[dumpfile_mtime] "Sat Jan 16 10:19:02 2021"
+[dumpfile_size] 58531840
+[savefile] "/Users/mshalan/work/GH-Repos/EL2_SoC/dv/EL2.gtkw"
+[timestart] 322255600
+[size] 2341 1199
 [pos] -1 -1
-*-19.766422 233795000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-14.960888 322396000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] N5_SoC_TB.
 [treeopen] N5_SoC_TB.MUV.
 [treeopen] N5_SoC_TB.MUV.ahb_sys_0_uut.
@@ -18,7 +18,7 @@
 [sst_width] 218
 [signals_width] 315
 [sst_expanded] 1
-[sst_vpaned_height] 535
+[sst_vpaned_height] 490
 @28
 N5_SoC_TB.HRESETn
 N5_SoC_TB.HCLK
@@ -63,7 +63,7 @@ N5_SoC_TB.MUV.EL2.lsu_hwrite
 @200
 -
 -Masters MUX
-@c00022
+@c00023
 N5_SoC_TB.MUV.EL2.MUX.state[4:0]
 @28
 (0)N5_SoC_TB.MUV.EL2.MUX.state[4:0]
@@ -71,7 +71,7 @@ N5_SoC_TB.MUV.EL2.MUX.state[4:0]
 (2)N5_SoC_TB.MUV.EL2.MUX.state[4:0]
 (3)N5_SoC_TB.MUV.EL2.MUX.state[4:0]
 (4)N5_SoC_TB.MUV.EL2.MUX.state[4:0]
-@1401200
+@1401201
 -group_end
 @28
 N5_SoC_TB.MUV.EL2.MUX.HTRANS[1:0]
@@ -82,14 +82,18 @@ N5_SoC_TB.MUV.EL2.MUX.HREADY_M1
 N5_SoC_TB.MUV.EL2.MUX.HREADY_M2
 @200
 -
--UART
+@22
+N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S0.PRESCALE[15:0]
+N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S0.IMASK[4:0]
 @28
+N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S0.PENABLE
+@22
+N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S0.PWDATA[31:0]
+@28
+N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S0.PWRITE
 N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S0.RsTx
-@820
-N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S0.tx_data[7:0]
 @200
 -
--SPI
 @28
 N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S2.SSn
 N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S2.SCLK
@@ -97,14 +101,12 @@ N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S2.MSI
 N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S2.MSO
 @22
 N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S2.SPI_DATAo_REG[7:0]
-@25
+@28
 N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S2.SPI_CTRL_REG[1:0]
 @22
+N5_SoC_TB.MUV.ahb_sys_0_uut.apb_bridge.HRDATA_64[63:0]
+N5_SoC_TB.MUV.ahb_sys_0_uut.apb_bridge.HRDATA_32[31:0]
 N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S2.SPI_DATAi_REG[7:0]
 N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S2.SPI_DATAo_REG[7:0]
-@28
-N5_SoC_TB.MUV.ahb_sys_0_uut.apb_sys_inst_0.S2.PSEL
-N5_SoC_TB.MSI_Sys0_SS0_S2
-N5_SoC_TB.MSO_Sys0_SS0_S2
 [pattern_trace] 1
 [pattern_trace] 0

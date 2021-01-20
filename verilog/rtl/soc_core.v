@@ -19,7 +19,6 @@ module soc_core (
 	input HRESETn,
 	
 	input wire 			NMI,
-	input wire [23:0]	SYSTICKCLKDIV,
 
 	input  wire [3: 0] 	fdi_Sys0_S0,
 	output wire [3: 0] 	fdo_Sys0_S0,
@@ -218,10 +217,7 @@ module soc_core (
 		.NMI(NMI),
 
 		//Interrupts
-		.IRQ(M0_IRQ[30:0]),
-
-		// SYSTICK Divisor
-		.SYSTICKCLKDIV(SYSTICKCLKDIV)
+		.IRQ(M0_IRQ[30:0])
 	);
 
   endmodule
