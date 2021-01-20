@@ -1,14 +1,8 @@
 `timescale 1ns/1ns
 
-<<<<<<< HEAD:dv/EL2_SoC_TB.v
 `define   TEST_FILE   "../sw/test.hex" 
 `define   SIM_TIME    1_500_000
 `define   SIM_LEVEL   2
-=======
-`define   TEST_FILE   "../../sw/test.hex" 
-`define   SIM_TIME    900_000
-`define   SIM_LEVEL   5
->>>>>>> e11488e3562518b16626df7a5df8ca1b643daef6:dv/SoC/EL2_SoC_TB.v
 
 module EL2_SoC_TB;
 
