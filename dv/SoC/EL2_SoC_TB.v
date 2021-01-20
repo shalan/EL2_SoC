@@ -1,6 +1,6 @@
 `timescale 1ns/1ns
 
-`define   TEST_FILE   "../sw/test.hex" 
+`define   TEST_FILE   "../../sw/test.hex" 
 `define   SIM_TIME    1_500_000
 `define   SIM_LEVEL   2
 
