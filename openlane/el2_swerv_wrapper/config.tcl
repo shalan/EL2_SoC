@@ -16,7 +16,7 @@ set ::env(ROUTING_CORES) 12
 
 set ::env(PL_OPENPHYSYN_OPTIMIZATIONS) 0
 
-set ::env(PL_TARGET_DENSITY) 0.4
+set ::env(PL_TARGET_DENSITY) 0.3
 set ::env(CELL_PAD) 0
 
 set ::env(DESIGN_IS_CORE) 0

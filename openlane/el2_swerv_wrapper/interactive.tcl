@@ -19,7 +19,7 @@ set script_dir [file dirname [file normalize [info script]]]
 prep -design $script_dir -tag el2_swerv_wrapper -overwrite
 set save_path $script_dir/../..
 
-verilog_elaborate
+run_synthesis
 
 run_floorplan
 run_placement
