@@ -40,6 +40,8 @@
 ../../verilog/rtl/el2_n5_soc_wrapper.v 
 ../../verilog/rtl/user_project_wrapper.v 
 
-EL2_Wrapper_TB.v
 ../sst26wf080b.v
 ../23LC512.v 
+../24LC16B.v 
+
+EL2_Wrapper_TB.v

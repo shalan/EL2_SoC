@@ -1,7 +1,7 @@
 `timescale 1ns/1ns
 
 `define   TEST_FILE   "../../sw/test.hex" 
-`define   SIM_TIME    900_000
+`define   SIM_TIME    1_500_000
 `define   SIM_LEVEL   5
 
 module EL2_Wrapper_TB;
@@ -183,6 +183,27 @@ module EL2_Wrapper_TB;
         .HOLD_N_SIO3(SPI_HOLD)
 	);
 
+    // I2C E2PROM connected to I2C0
+    wire    scl, sda;
+    delay   m0_scl (scl_oen_o_Sys0_SS0_S4 ? 1'bz : scl_o_Sys0_SS0_S4, scl),
+            m0_sda (sda_oen_o_Sys0_SS0_S4 ? 1'bz : sda_o_Sys0_SS0_S4, sda);
+
+    assign  scl_i_Sys0_SS0_S4 = scl;
+    assign  sda_i_Sys0_SS0_S4 = sda;
+    
+	pullup p1(scl); // pullup scl line
+	pullup p2(sda); // pullup sda line
+
+    M24LC16B I2C_E2PROM(
+        .A0(1'b0), 
+        .A1(1'b0), 
+        .A2(1'b0), 
+        .WP(1'b0), 
+        .SDA(sda), 
+        .SCL(scl), 
+        .RESET(~HRESETn)
+    );
+
     // Load the application into the flash memory
     initial begin
         #1  $readmemh(`TEST_FILE, flash.I0.memory);
@@ -236,4 +257,15 @@ module terminal #(parameter bit_time = 160) (input rx);
     end
 
 
+endmodule
+
+module delay (in, out);
+  input  in;
+  output out;
+
+  assign out = in;
+
+  specify
+    (in => out) = (600,600);
+  endspecify
 endmodule
