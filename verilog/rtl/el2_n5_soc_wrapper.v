@@ -97,11 +97,17 @@ el2_swerv_wrapper el2 (
         .rst_vec(31'b0), 
         .nmi_int(NMI), 
         .nmi_vec(31'b0),
-/*
-        jtag_id, trace_rv_i_insn_ip, trace_rv_i_address_ip, 
-        trace_rv_i_valid_ip, trace_rv_i_exception_ip, trace_rv_i_ecause_ip, 
-        trace_rv_i_interrupt_ip, trace_rv_i_tval_ip, 
-*/        
+        
+        // Unused I/Os
+        .jtag_id(31'b0),
+        .trace_rv_i_insn_ip(),
+        .trace_rv_i_address_ip(), 
+        .trace_rv_i_valid_ip(),
+        .trace_rv_i_exception_ip(),
+        .trace_rv_i_ecause_ip(), 
+        .trace_rv_i_interrupt_ip(),
+        .trace_rv_i_tval_ip(), 
+        
         .haddr(ifu_haddr), 
         .hburst(), //
         .hmastlock(), //
@@ -124,48 +130,64 @@ el2_swerv_wrapper el2 (
         .lsu_hrdata(lsu_hrdata), 
         .lsu_hready(lsu_hready), 
         .lsu_hresp(1'b0), 
-        /*
-        sb_haddr, 
-        sb_hburst, sb_hmastlock, sb_hprot, sb_hsize, sb_htrans, sb_hwrite, 
-        sb_hwdata, sb_hrdata, sb_hready, sb_hresp, 
         
-        dma_hsel, dma_haddr, 
-        dma_hburst, dma_hmastlock, dma_hprot, dma_hsize, dma_htrans, 
-        dma_hwrite, dma_hwdata, dma_hreadyin, dma_hrdata, dma_hreadyout, 
-        dma_hresp, 
-        
-        lsu_bus_clk_en, ifu_bus_clk_en, dbg_bus_clk_en, 
-        dma_bus_clk_en, 
-        
-        dccm_ext_in_pkt, iccm_ext_in_pkt, ic_data_ext_in_pkt, 
-        ic_tag_ext_in_pkt, timer_int, soft_int, extintsrc_req, 
-        dec_tlu_perfcnt0, dec_tlu_perfcnt1, dec_tlu_perfcnt2, dec_tlu_perfcnt3, 
-        
-        jtag_tck, jtag_tms, jtag_tdi, jtag_trst_n, jtag_tdo, core_id, 
-        
-        mpc_debug_halt_req, mpc_debug_run_req, mpc_reset_run_req, 
-        mpc_debug_halt_ack, mpc_debug_run_ack, 
-        
-        debug_brkpt_status, 
-        i_cpu_halt_req, o_cpu_halt_ack, o_cpu_halt_status, o_debug_mode_status, 
-        i_cpu_run_req, o_cpu_run_ack, scan_mode, mbist_mode */
-        
-        //.lsu_hresp(1'b0),
-        //.lsu_hready(1'b1),
-
-        .sb_hresp(1'b0),
+        // Un-used I/Os
+        .sb_haddr(), 
+        .sb_hburst(),
+        .sb_hmastlock(),
+        .sb_hprot(),
+        .sb_hsize(),
+        .sb_htrans(),
+        .sb_hwrite(), 
+        .sb_hwdata(),
+        .sb_hrdata(64'b0),
         .sb_hready(1'b1),
+        .sb_hresp(1'b0), 
         
+        .dma_hsel(1'b0),
+        .dma_haddr(32'b0), 
+        .dma_hburst(3'b0),
+        .dma_hmastlock(1'b0),
+        .dma_hprot(4'b0),
+        .dma_hsize(3'b0),
+        .dma_htrans(2'b0), 
+        .dma_hwrite(1'b0),
+        .dma_hwdata(64'b0),
+        .dma_hreadyin(1'b1),
+        .dma_hrdata(),
+        .dma_hreadyout(), 
+        .dma_hresp(), 
+        
+        .dccm_ext_in_pkt(48'b0),
+        .iccm_ext_in_pkt(48'b0),
+        .ic_data_ext_in_pkt(48'b0), 
+        .ic_tag_ext_in_pkt(24'b0),
+        
+        .dec_tlu_perfcnt0(),
+        .dec_tlu_perfcnt1(),
+        .dec_tlu_perfcnt2(),
+        .dec_tlu_perfcnt3(), 
+        
+        .jtag_tck(1'b0),
+        .jtag_tdi(1'b0),
+        .jtag_tdo(),
+        
+        .mpc_debug_halt_ack(),
+        .mpc_debug_run_ack(), 
+        
+        .debug_brkpt_status(), 
+        .o_cpu_halt_ack(),
+        .o_cpu_halt_status(),
+        .o_debug_mode_status(), 
+        .o_cpu_run_ack(),
+   
         .core_id(28'h000_0000),
 
         .ifu_bus_clk_en(1'b1),
         .lsu_bus_clk_en(1'b1),
         .dbg_bus_clk_en(1'b0), 
         .dma_bus_clk_en(1'b0), 
-        
-        .dma_hreadyin(1'b1),
-//        .dma_hresp(0),
-        
+                
         .jtag_trst_n(HRESETn),
         .jtag_tms(1'b0),
 
