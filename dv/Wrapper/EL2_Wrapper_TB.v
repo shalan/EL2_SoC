@@ -98,14 +98,14 @@ module EL2_Wrapper_TB;
     assign io_in[32] = scl_i_Sys0_SS0_S4;
     assign scl_o_Sys0_SS0_S4 = io_out[32];
     assign scl_oen_o_Sys0_SS0_S4 = io_oeb[32];
-    assign sda_i_Sys0_SS0_S4 = io_in[33];
+    assign io_in[33] = sda_i_Sys0_SS0_S4;
     assign sda_o_Sys0_SS0_S4 = io_out[33];
     assign sda_oen_o_Sys0_SS0_S4 = io_oeb[33];
 
     assign io_in[34] = scl_i_Sys0_SS0_S5;
     assign scl_o_Sys0_SS0_S5 = io_out[34];
     assign scl_oen_o_Sys0_SS0_S5 = io_oeb[34];
-    assign sda_i_Sys0_SS0_S5 = io_in[35];
+    assign io_in[35] = sda_i_Sys0_SS0_S5;
     assign sda_o_Sys0_SS0_S5 = io_out[35];
     assign sda_oen_o_Sys0_SS0_S5 = io_oeb[35];
 

@@ -23,5 +23,5 @@ sim_gl: test_gl.vvp
 	./test_gl.vvp
 	
 clean:
-	rm *.vvp
+	rm *.vvp *.vcd
 	rm -f ../../sw/*.hex ../../sw/*.elf ../../sw/*.lst 
