@@ -15,8 +15,8 @@
 
 module el2_n5_soc_wrapper (
 `ifdef USE_POWER_PINS
-    input VPWR,
-    input VGND,
+    input wire VPWR,
+    input wire VGND,
 `endif
     input  wire         HCLK,				// System clock
     input  wire         HRESETn,			// System Reset, active low
@@ -86,6 +86,10 @@ Mux2M1S MUX (
 
 
 el2_swerv_wrapper el2 ( 
+`ifdef USE_POWER_PINS
+        .VPWR(VPWR),
+        .VGND(VGND),
+`endif
         .clk(HCLK), 
         .rst_l(HRESETn), 
         .dbg_rst_l(HRESETn), 
