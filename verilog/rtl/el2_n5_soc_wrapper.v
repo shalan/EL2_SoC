@@ -14,6 +14,10 @@
 
 
 module el2_n5_soc_wrapper (
+`ifdef USE_POWER_PINS
+    input VPWR,
+    input VGND,
+`endif
     input  wire         HCLK,				// System clock
     input  wire         HRESETn,			// System Reset, active low
 
