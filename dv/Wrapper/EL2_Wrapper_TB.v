@@ -4,6 +4,10 @@
 `define   SIM_TIME    1_500_000
 `define   SIM_LEVEL   5
 
+`ifndef MPRJ_IO_PADS
+    `define MPRJ_IO_PADS 38
+`endif
+
 module EL2_Wrapper_TB;
 
     // EL2 Wrapper
