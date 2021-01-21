@@ -25,18 +25,18 @@ init_floorplan
 
 place_io_ol
 
-# 3 x 4KB DFFRAM macros
-add_macro_placement core.RAM.HBANK  160 120 N
-add_macro_placement core.RAM.LBANK  1559 120 N
+# 2 x 4KB DFFRAM macros
+add_macro_placement core.RAM.HBANK  200 120 N
+add_macro_placement core.RAM.LBANK  1600 120 N
 
 # QSPI Cache Macro
-add_macro_placement core.ahb_sys_0_uut.S0.CACHE 450 2000 N
+add_macro_placement core.ahb_sys_0_uut.S0.CACHE 200 1750 N
 
 # The APB subsystem including the peripherals
-add_macro_placement core.ahb_sys_0_uut.apb_sys_inst_0  550 2900 N
+add_macro_placement core.ahb_sys_0_uut.apb_sys_inst_0  200 2850 N
 
 # The CPU
-add_macro_placement core.EL2 1490 2000 N
+add_macro_placement core.EL2.el2 1300 1750 N
  
 manual_macro_placement f
 
@@ -46,8 +46,8 @@ set ::env(_VDD_NET_NAME) vccd1
 set ::env(_GND_NET_NAME) vssd1
 set ::env(_V_OFFSET) 15
 set ::env(_H_OFFSET) $::env(_V_OFFSET)
-set ::env(_V_PITCH) 120
-set ::env(_H_PITCH) 120
+set ::env(_V_PITCH) 180
+set ::env(_H_PITCH) 180
 set ::env(_V_PDN_OFFSET) 0
 set ::env(_H_PDN_OFFSET) 0
 set ::env(_SPACING) 1.7
