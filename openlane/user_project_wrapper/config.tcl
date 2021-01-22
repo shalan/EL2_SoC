@@ -41,7 +41,7 @@ set ::env(ROUTING_CORES) 12
 set ::env(SYNTH_STRATEGY) 3
 
 #0.185
-set ::env(PL_TARGET_DENSITY) 0.15
+set ::env(PL_TARGET_DENSITY) 0.1
 set ::env(GLB_RT_ADJUSTMENT) 0.4
 set ::env(GLB_RT_MAXLAYER) 5
 

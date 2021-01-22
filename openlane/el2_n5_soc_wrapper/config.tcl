@@ -10,13 +10,13 @@ set ::env(GLB_RT_OBS) "met5 $::env(DIE_AREA)"
 set ::env(CLOCK_PORT) "HCLK"
 set ::env(CLOCK_NET) "HCLK"
 
-set ::env(CLOCK_PERIOD) "8"
+set ::env(CLOCK_PERIOD) "10"
 
 set ::env(ROUTING_CORES) 12
 
 set ::env(PL_OPENPHYSYN_OPTIMIZATIONS) 0
 
-set ::env(SYNTH_STRATEGY) 3
+#set ::env(SYNTH_STRATEGY) 3
 
 set ::env(PL_TARGET_DENSITY) 0.3
 set ::env(CELL_PAD) 0

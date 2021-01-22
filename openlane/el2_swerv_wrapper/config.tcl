@@ -24,7 +24,7 @@ set ::env(VERILOG_FILES) "\
    $script_dir/../../verilog/rtl/el2.v"
     
 set ::env(GLB_RT_MAXLAYER) 5
-set ::env(GLB_RT_ADJUSTMENT) 0.33
+set ::env(GLB_RT_ADJUSTMENT) 0.34
 
 set ::env(PDN_CFG) $script_dir/pdn.tcl
 set ::env(FP_PIN_ORDER_CFG) 				$::env(DESIGN_DIR)/pin_order.cfg

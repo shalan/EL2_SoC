@@ -36,7 +36,7 @@ add_macro_placement core.ahb_sys_0_uut.S0.CACHE 200 1750 N
 add_macro_placement core.ahb_sys_0_uut.apb_sys_inst_0  200 2850 N
 
 # The CPU
-add_macro_placement core.EL2.el2 1300 1750 N
+add_macro_placement core.EL2.el2 1350 1750 N
  
 manual_macro_placement f
 
