@@ -57,7 +57,7 @@ module el2_n5_soc_wrapper (
 
 Mux2M1S MUX (
 	.HCLK(HCLK),
-	.HRESETn(),
+	.HRESETn(HRESETn),
 	
 	.HADDR_M1(ifu_haddr),
 	.HTRANS_M1(ifu_htrans),
