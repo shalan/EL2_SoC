@@ -36,6 +36,7 @@
 
 #+define+USE_DFFRAM_BEH=1
 ../../verilog/rtl/soc_core.v
+../../verilog/rtl/el2_defines.v
 ../../verilog/rtl/el2.v 
 ../../verilog/rtl/el2_n5_soc_wrapper.v 
 ../../verilog/rtl/user_project_wrapper.v 
@@ -45,3 +46,5 @@
 ../24LC16B.v 
 
 EL2_Wrapper_TB.v
+
+# -------------- #
