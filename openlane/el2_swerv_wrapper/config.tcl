@@ -21,6 +21,7 @@ set ::env(DESIGN_IS_CORE) 0
 set ::env(SYNTH_READ_BLACKBOX_LIB) 1
 
 set ::env(VERILOG_FILES) "\
+   $script_dir/../../verilog/rtl/el2_defines.v
    $script_dir/../../verilog/rtl/el2.v"
     
 set ::env(GLB_RT_MAXLAYER) 5

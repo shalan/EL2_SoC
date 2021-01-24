@@ -27,7 +27,7 @@ place_io_ol
 
 # 2 x 4KB DFFRAM macros
 add_macro_placement core.RAM.HBANK  200 120 N
-add_macro_placement core.RAM.LBANK  1600 120 N
+add_macro_placement core.RAM.LBANK  1620 120 N
 
 # QSPI Cache Macro
 add_macro_placement core.ahb_sys_0_uut.S0.CACHE 200 1750 N
@@ -36,7 +36,7 @@ add_macro_placement core.ahb_sys_0_uut.S0.CACHE 200 1750 N
 add_macro_placement core.ahb_sys_0_uut.apb_sys_inst_0  200 2850 N
 
 # The CPU
-add_macro_placement core.EL2 1350 1750 N
+add_macro_placement core.EL2.el2 1370 1750 N
  
 manual_macro_placement f
 
@@ -96,3 +96,7 @@ run_magic_drc
 run_lvs; # requires run_magic_spice_export
 
 run_antenna_check
+
+run_lef_cvc
+
+generate_final_summary_report
